@@ -294,12 +294,15 @@ function App() {
               }
             }
 
-            // 如果Web Share API不可用，尝试使用FileSaver API
-            if ('saveAs' in navigator) {
-              await navigator.saveAs(blob, '男M自评报告.png')
-              setSnackbarMessage('报告已保存到相册！')
-              setSnackbarOpen(true)
-              return
+            // 如果Web Share API不可用，尝试使用FileSaver.js
+            try {
+              const FileSaver = await import('file-saver');
+              FileSaver.saveAs(blob, '男M自评报告.png');
+              setSnackbarMessage('报告已保存到相册！');
+              setSnackbarOpen(true);
+              return;
+            } catch (error) {
+              console.error('FileSaver error:', error);
             }
 
             // 回退方案：使用传统的下载方法
