@@ -12,13 +12,14 @@ export default defineConfig({
     assetsDir: 'assets',
     sourcemap: false,
     rollupOptions: {
+      input: {
+        main: './index.html',
+        female: './female.html',
+        male: './male.html'
+      },
       output: {
         manualChunks: undefined
-      },
-      input: {
-        main: '/src/main.jsx',
-        male: '/src/male.jsx'
-      },
+      }
     }
   }
 })
