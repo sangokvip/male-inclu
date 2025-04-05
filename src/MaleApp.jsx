@@ -297,12 +297,30 @@ function App() {
             // 如果Web Share API不可用，尝试使用FileSaver.js
             try {
               const FileSaver = await import('file-saver');
-              FileSaver.saveAs(blob, '男M自评报告.png');
+              await FileSaver.saveAs(blob, '男M自评报告.png');
               setSnackbarMessage('报告已保存到相册！');
               setSnackbarOpen(true);
               return;
             } catch (error) {
               console.error('FileSaver error:', error);
+              // 如果FileSaver失败，尝试使用传统下载方法
+              try {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = '男M自评报告.png';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+                setSnackbarMessage('报告已保存为图片！');
+                setSnackbarOpen(true);
+                return;
+              } catch (downloadError) {
+                console.error('Traditional download error:', downloadError);
+                setSnackbarMessage('保存图片失败，请尝试使用保存为PDF功能！');
+                setSnackbarOpen(true);
+              }
             }
 
             // 回退方案：使用传统的下载方法
@@ -319,7 +337,7 @@ function App() {
             setSnackbarOpen(true)
           } catch (error) {
             console.error('保存图片错误:', error)
-            setSnackbarMessage('保存图片失败，请尝试使用系统自带的截图功能')
+            setSnackbarMessage('保存图片失败，请尝试使用保存为PDF功能！')
             setSnackbarOpen(true)
           }
         } else {
