@@ -14,7 +14,11 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: undefined
-      }
+      },
+      input: {
+        main: '/src/main.jsx',
+        male: '/src/male.jsx'
+      },
     }
   }
 })
