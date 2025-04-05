@@ -10,99 +10,69 @@ import HelpIcon from '@mui/icons-material/Help'
 import MenuIcon from '@mui/icons-material/Menu'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
-import AssessmentIcon from '@mui/icons-material/Assessment'
-import MaleIcon from '@mui/icons-material/Male'
-import FemaleIcon from '@mui/icons-material/Female'
 
 const RATING_OPTIONS = ['SSS', 'SS', 'S', 'Q', 'N', 'W']
 const CATEGORIES = {
-  '👑 性奴': ['🔞 强奸', '👥 轮奸', '💋 口爆', '💦 颜射', '💉 内射', '🍑 肛交', '🔧 器具折磨', '⚡️ 强制高潮', '💧 潮吹失禁', '🎭 自慰展示', '🚫 禁止高潮', '🔄 扩张阴道', '⭕️ 扩张肛门', '🔄 双阳具插入', '➕ 多阳具插入', '✌️ 双插'],
-  '🐕 犬奴': ['🔒 囚笼关押', '⛓️ 项圈镣铐', '🍽️ 喂食', '🐾 爬行', '👣 舔足', '👠 踩踏', '🎠 骑乘'],
-  '🎎 玩偶奴': ['🎭 角色扮演', '👔 制服诱惑', '🎭 人偶装扮', '💍 乳环', '💎 阴环', '💫 脐环', '✂️ 剃毛', '🔍 内窥镜研究', '🔧 性工具研究', '🎨 作为艺术品', '🪑 作为家具', '🚬 作为烟灰缸', '👗 作为女仆', '🤐 限制说话内容'],
-  '🌲 野奴': ['🌳 野外暴露', '⛓️ 野外奴役', '🏃‍♀️ 野外流放', '🌿 野外玩弄', '🏢 公共场合暴露', '🏛️ 公共场合玩弄', '🎗️ 公开场合捆绑（衣服内）', '📱 公开场合器具（衣服内）', '👀 露阴（像朋友）', '👥 露阴（向生人）', '🔐 贞操带', '📿 公开场合项圈'],
-  '🐾 兽奴': ['🐕 兽交', '🐺 群兽轮交', '🐎 人兽同交', '🦁 兽虐', '🐜 昆虫爬身'],
-  '⚔️ 刑奴': ['👋 耳光', '🤐 口塞', '💇‍♀️ 扯头发', '👢 皮带', '🎯 鞭子', '🎋 藤条', '🪵 木板', '🏏 棍棒', '🖌️ 毛刷', '⚡️ 虐阴', '🔗 紧缚', '⛓️ 吊缚', '🔒 拘束', '📎 乳夹', '⚡️ 电击', '🕯️ 滴蜡', '📍 针刺', '💉 穿孔', '🔥 烙印', '🎨 刺青', '✂️ 切割', '🔥 火刑', '💧 水刑', '😮‍💨 窒息', '👊 体罚', '🧊 冰块'],
-  '🚽 厕奴': ['👅 舔精', '🥛 吞精', '💧 唾液', '💦 喝尿', '🚿 尿浴', '👄 舔阴', '💦 放尿', '🚰 灌肠', '👅 舔肛', '💩 排便', '🛁 粪浴', '🍽️ 吃粪', '🤧 吃痰', '🩸 吃经血'],
-  '💭 心奴': ['🗣️ 言语侮辱', '😈 人格侮辱', '🧠 思维控制', '🌐 网络控制', '📢 语言管教'],
-  '✨ 其他': ['👥 多奴调教', '👑 多主调教', '🌐 网络公调', '🪶 瘙痒', '📅 长期圈养', '⏱️ 短期圈养', '😴 剥夺睡眠', '🌀 催眠', '👭 同性性爱']
+  '👣 恋足': ['🧎 跪拜', '🦶 足交', '👃 闻脚', '👅 舔足(无味)', '👅 舔足(原味)', '🧦 舔袜(无味)', '🧦 舔袜(原味)', '🤐 袜堵嘴', '👞 舔鞋(调用)', '👠 舔鞋(户外穿)', '🍽️ 足喂食', '💧 喝洗脚水', '💦 喝洗袜水', '👄 足深喉', '🦵 踢打', '🦶 裸足踩踏', '👠 高跟踩踏'],
+  '👑 性奴': ['👅 舔阴', '👄 舔肛', '🚫 禁止射精', '🎭 自慰表演', '🔧 器具折磨', '💦 舔食自己精液', '🍑 肛门插入', '⭕️ 扩肛', '🕳️ 马眼插入', '🎠 木马', '🍆 阳具插入'],
+  '🐕 狗奴': ['🐾 狗姿', '📿 项圈', '⛓️ 镣铐', '🏠 看门', '🐾 狗爬', '🦮 室内遛狗', '💦 狗撒尿', '👅 狗舔食', '🍽️ 口吐食', '💧 口水', '🥄 痰盂', '🎭 狗装', '🐶 狗叫', '👙 内裤套头', '👃 舔内裤（原味）', '🚬 烟灰缸', '🔒 狗笼关押', '⛓️ 圈禁饲养', '🎠 骑马'],
+  '🎎 性玩具': ['🎭 角色扮演', '💍 乳环', '⭕️ 龟头环', '💫 肛环', '🔒 贞操锁', '🔌 肛塞', '✍️ 身上写字（可洗）', '📝 身上写字（不洗）', '👗 CD异装', '✂️ 剃光头', '🪒 剃毛', '🔧 性工具玩弄', '🪑 固定在桌椅上', '👤 坐脸', '💧 灌肠（温和液体）', '⚡️ 灌肠（刺激液体）', '📸 拍照/录像（露脸）', '📷 拍照/录像（不露脸）', '🎯 作为玩具', '🪑 作为家具', '👔 作为男仆'],
+  '🐾 兽奴': ['🐕 兽交', '🐺 群兽轮交', '🦁 兽虐', '🐜 昆虫爬身'],
+  '🌲 野奴': ['🌳 野外奴役', '🏃 野外流放', '🌿 野外玩弄', '👀 公共场合暴露', '🏛️ 公共场合玩弄', '⛓️ 公共场合捆绑', '🔧 公共场合器具', '🔒 贞操锁', '👥 露阳(熟人)', '👀 露阳(生人)', '🐕 野外遛狗'],
+  '⚔️ 刑奴': ['👋 耳光', '🎋 藤条抽打', '🎯 鞭打', '🪵 木板拍打', '🖌️ 毛刷', '👊 拳脚', '🤐 口塞', '⛓️ 吊缚', '🔒 拘束', '🔗 捆绑', '😮‍💨 控制呼吸', '📎 乳夹', '⚖️ 乳头承重', '🔗 阴茎夹子', '📎 阴囊夹子', '⚖️ 阴茎吊重物', '⚖️ 阴囊吊重物', '🎯 鞭打阳具', '🦶 踢裆', '🪶 瘙痒', '⚡️ 电击', '🕯️ 低温滴蜡', '🔥 高温滴蜡', '📍 针刺', '💉 穿孔', '👊 体罚', '🤐 木乃伊', '💧 水刑', '🔥 火刑', '🧊 冰块', '🔥 烙印', '✂️ 身体改造', '✂️ 阉割'],
+  '💭 心奴': ['🗣️ 语言侮辱', '🗣️ 语言侮辱', '😈 人格侮辱', '🧠 思维控制', '🌐 网络控制', '📢 网络公调'],
+  '🏠 家奴': ['⏱️ 短期圈养', '📅 长期圈养', '👥 多奴调教', '👑 多主调教', '👥 熟人旁观', '👀 生人旁观', '😈 熟人侮辱', '🗣️ 生人侮辱', '😴 剥夺睡眠', '🌀 催眠', '🧹 家务', '👔 伺候'],
+  '🚽 厕奴': ['🚽 伺候小便', '🚽 伺候大便', '🚿 圣水浴', '💧 喝圣水', '🍽️ 圣水食物', '🧻 舔舐厕纸', '🛁 黄金浴', '🍽️ 吃黄金', '🧹 清洁马桶', '🩸 吃红金', '💉 尿液灌肠']
 }
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#0D47A1',
-      light: '#1976D2',
-      dark: '#002171',
+      main: '#6200ea',
+      light: '#9d46ff',
+      dark: '#0a00b6',
     },
     secondary: {
-      main: '#1E88E5',
-      light: '#42A5F5',
-      dark: '#1565C0',
+      main: '#ff4081',
+      light: '#ff79b0',
+      dark: '#c60055',
     },
     background: {
-      default: '#F5F7FA',
-      paper: '#FFFFFF',
+      default: '#f8f9fa',
+      paper: '#ffffff',
     },
     text: {
-      primary: '#0D47A1',
-      secondary: '#1976D2',
+      primary: '#2c3e50',
+      secondary: '#546e7a',
     },
   },
   typography: {
     h3: {
       fontWeight: 700,
-      letterSpacing: '-0.5px',
-      color: '#0D47A1',
       marginBottom: '2rem',
-      fontSize: '2.5rem',
+      letterSpacing: '-0.5px',
+      color: '#1a237e',
     },
     subtitle1: {
-      color: '#1976D2',
-      fontSize: '1.2rem',
-      lineHeight: 1.8,
+      color: 'text.secondary',
       marginBottom: '2.5rem',
+      fontSize: '1.1rem',
     },
     h5: {
       fontWeight: 600,
-      color: '#0D47A1',
       marginBottom: '1.5rem',
-      fontSize: '1.8rem',
+      color: '#303f9f',
     },
   },
   components: {
     MuiPaper: {
       styleOverrides: {
         root: {
-          borderRadius: '16px',
-          boxShadow: '0 10px 20px rgba(13, 71, 161, 0.1)',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          padding: '2rem',
-          '&:hover': {
-            transform: 'translateY(-4px)',
-            boxShadow: '0 15px 30px rgba(13, 71, 161, 0.15)',
-          },
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
           borderRadius: '12px',
-          textTransform: 'none',
-          fontWeight: 600,
-          padding: '12px 28px',
-          fontSize: '1.1rem',
-          transition: 'all 0.2s ease-in-out',
           '&:hover': {
-            transform: 'translateY(-2px)',
-            boxShadow: '0 8px 16px rgba(13, 71, 161, 0.2)',
-          },
-        },
-        contained: {
-          background: 'linear-gradient(45deg, #0D47A1 30%, #1976D2 90%)',
-          color: 'white',
-          '&:hover': {
-            background: 'linear-gradient(45deg, #002171 30%, #0D47A1 90%)',
+            boxShadow: '0 12px 24px rgba(0,0,0,0.1)',
+            transform: 'translateY(-4px)',
           },
         },
       },
@@ -110,12 +80,25 @@ const theme = createTheme({
     MuiSelect: {
       styleOverrides: {
         root: {
-          borderRadius: '12px',
-          backgroundColor: '#FFFFFF',
-          fontSize: '1.1rem',
-          padding: '12px',
+          backgroundColor: '#fff',
+          borderRadius: '8px',
           '&:hover': {
-            backgroundColor: '#F5F7FA',
+            backgroundColor: '#f5f5f5',
+          },
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '8px',
+          textTransform: 'none',
+          fontWeight: 600,
+          padding: '8px 24px',
+          transition: 'all 0.2s ease-in-out',
+          '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: '0 6px 12px rgba(0,0,0,0.1)',
           },
         },
       },
@@ -123,7 +106,7 @@ const theme = createTheme({
   },
 })
 
-function MaleApp() {
+function App() {
   const [ratings, setRatings] = useState({})
   const [openReport, setOpenReport] = useState(false)
   const [snackbarOpen, setSnackbarOpen] = useState(false)
@@ -145,13 +128,13 @@ function MaleApp() {
 
   const getRatingColor = (rating) => {
     switch(rating) {
-      case 'SSS': return '#E91E63' // 粉色
-      case 'SS': return '#9C27B0'  // 紫色
-      case 'S': return '#4CAF50'   // 绿色
-      case 'Q': return '#FFA000'   // 琥珀色
-      case 'N': return '#FF5722'   // 橙红色
-      case 'W': return '#757575'   // 深灰色
-      default: return '#F5F5F5'    // 浅灰色背景
+      case 'SSS': return '#1E3D59'
+      case 'SS': return '#2B5876'
+      case 'S': return '#3F72AF'
+      case 'Q': return '#5E8AB4'
+      case 'N': return '#7B9EC9'
+      case 'W': return '#A1B5CB'
+      default: return '#D3D3D3'
     }
   }
 
@@ -270,65 +253,19 @@ function MaleApp() {
         // 确保所有图表都已渲染
         await new Promise(resolve => setTimeout(resolve, 500));
 
-        // 预加载二维码图片并设置属性
-        await new Promise((resolve) => {
-          const qrCodeImg = reportElement.querySelector('img[alt="QR Code"]');
-          if (qrCodeImg) {
-            qrCodeImg.crossOrigin = 'anonymous';
-            qrCodeImg.style.position = 'absolute';
-            qrCodeImg.style.bottom = '20px';
-            qrCodeImg.style.right = '20px';
-            qrCodeImg.style.width = '120px';
-            qrCodeImg.style.height = '120px';
-            qrCodeImg.style.borderRadius = '12px';
-            qrCodeImg.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
-            qrCodeImg.style.zIndex = '1000';
-            qrCodeImg.style.backgroundColor = '#ffffff';
-            qrCodeImg.style.objectFit = 'contain';
-            qrCodeImg.style.display = 'block';
-            
-            const newImg = new Image();
-            newImg.crossOrigin = 'anonymous';
-            newImg.onload = () => {
-              qrCodeImg.src = newImg.src;
-              resolve();
-            };
-            newImg.onerror = resolve;
-            newImg.src = qrCodeImg.src;
-          } else {
-            resolve();
-          }
-        });
-
         const canvas = await html2canvas(container, {
           scale: 2,
           useCORS: true,
           allowTaint: true,
           logging: false,
           backgroundColor: '#ffffff',
-          imageTimeout: 30000,
+          imageTimeout: 0,
           onclone: (clonedDoc) => {
             const charts = clonedDoc.querySelectorAll('.recharts-wrapper');
             charts.forEach(chart => {
               chart.style.width = '100%';
               chart.style.height = 'auto';
             });
-            // 确保二维码图片正确显示
-            const qrCodeImg = clonedDoc.querySelector('img[alt="QR Code"]');
-            if (qrCodeImg) {
-              qrCodeImg.crossOrigin = 'anonymous';
-              qrCodeImg.style.position = 'absolute';
-              qrCodeImg.style.bottom = '20px';
-              qrCodeImg.style.right = '20px';
-              qrCodeImg.style.width = '120px';
-              qrCodeImg.style.height = '120px';
-              qrCodeImg.style.borderRadius = '12px';
-              qrCodeImg.style.boxShadow = '0 4px 8px rgba(0,0,0,0.1)';
-              qrCodeImg.style.zIndex = '1000';
-              qrCodeImg.style.backgroundColor = '#ffffff';
-              qrCodeImg.style.objectFit = 'contain';
-              qrCodeImg.style.display = 'block';
-            }
           }
         });
 
@@ -422,22 +359,37 @@ function MaleApp() {
     }
   }
 
+  const handleSetAllRating = (category, rating) => {
+    const items = CATEGORIES[category]
+    const newRatings = { ...ratings }
+    items.forEach(item => {
+      newRatings[`${category}-${item}`] = rating
+    })
+    setRatings(newRatings)
+    setSnackbarMessage(`已将${category}类别下所有选项设置为${rating}`)
+    setSnackbarOpen(true)
+  }
+
+  const handleShareToWeChat = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: '男M自评报告',
+        text: '查看我的男M自评报告',
+      }).then(() => {
+        setSnackbarMessage('分享成功！')
+        setSnackbarOpen(true)
+      }).catch(() => {
+        setSnackbarMessage('分享失败，请重试')
+        setSnackbarOpen(true)
+      })
+    } else {
+      setSnackbarMessage('您的浏览器不支持分享功能')
+      setSnackbarOpen(true)
+    }
+  }
+
   return (
     <ThemeProvider theme={theme}>
-      <Box component="img" src="https://img.m-profile.top/img/qrcode.png" alt="QR Code" sx={{
-        position: 'fixed',
-        bottom: 20,
-        right: 20,
-        width: { xs: '100px', sm: '120px' },
-        height: { xs: '100px', sm: '120px' },
-        borderRadius: '12px',
-        boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-        transition: 'transform 0.3s ease-in-out',
-        zIndex: 1000,
-        '&:hover': {
-          transform: 'scale(1.05)'
-        }
-      }} />
 
       <AppBar position="sticky" sx={{
         background: 'linear-gradient(135deg, #6200ea 0%, #9d46ff 100%)',
@@ -482,9 +434,8 @@ function MaleApp() {
             }}>              
               <Button color="inherit" startIcon={<HomeIcon />}>首页</Button>
               <Button color="inherit" startIcon={<InfoIcon />}>关于</Button>
-              <Button color="inherit" startIcon={<HelpIcon />}>帮助</Button>
-              <Button color="inherit" startIcon={<MaleIcon />} href="/male.html">男性版</Button>
-              <Button color="inherit" startIcon={<FemaleIcon />} href="/female.html">女性版</Button>
+              <Button color="inherit" startIcon={<HelpIcon />}>使用指南</Button>
+              <Button color="inherit" href="/female.html">女性版</Button>
             </Box>
 
             <IconButton
@@ -497,207 +448,256 @@ function MaleApp() {
           </Toolbar>
         </Container>
       </AppBar>
-      <Box sx={{
+
+      <Drawer
+        anchor="right"
+        open={mobileMenuOpen}
+        onClose={() => setMobileMenuOpen(false)}
+      >
+        <Box sx={{ width: 250, pt: 2 }}>
+          <List>
+            <ListItem button onClick={() => {
+              const newRatings = {};
+              Object.entries(CATEGORIES).forEach(([category, items]) => {
+                items.forEach(item => {
+                  const randomIndex = Math.floor(Math.random() * RATING_OPTIONS.length);
+                  newRatings[`${category}-${item}`] = RATING_OPTIONS[randomIndex];
+                });
+              });
+              setRatings(newRatings);
+              setSnackbarMessage('已完成随机选择！');
+              setSnackbarOpen(true);
+              setMobileMenuOpen(false);
+            }}>
+              <ListItemIcon><AutorenewIcon /></ListItemIcon>
+              <ListItemText primary="随机选择" />
+            </ListItem>
+            <ListItem button onClick={() => setMobileMenuOpen(false)}>
+              <ListItemIcon><HomeIcon /></ListItemIcon>
+              <ListItemText primary="首页" />
+            </ListItem>
+            <ListItem button onClick={() => setMobileMenuOpen(false)}>
+              <ListItemIcon><InfoIcon /></ListItemIcon>
+              <ListItemText primary="关于" />
+            </ListItem>
+            <ListItem button onClick={() => setMobileMenuOpen(false)}>
+              <ListItemIcon><HelpIcon /></ListItemIcon>
+              <ListItemText primary="使用指南" />
+            </ListItem>
+            <ListItem button component="a" href="/male.html">
+              <ListItemText primary="男性版" />
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
+
+      <Container maxWidth="lg" sx={{
+        py: 8,
         minHeight: '100vh',
-        background: 'linear-gradient(120deg, #E3F2FD 0%, #BBDEFB 100%)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 5,
+        animation: 'fadeIn 0.6s ease-in-out',
+        '@keyframes fadeIn': {
+          from: { opacity: 0, transform: 'translateY(20px)' },
+          to: { opacity: 1, transform: 'translateY(0)' }
+        }
       }}>
-  
-
-        <Drawer
-          anchor="right"
-          open={mobileMenuOpen}
-          onClose={() => setMobileMenuOpen(false)}
-        >
-          <Box sx={{ width: 250, p: 2 }}>
-            <List>
-              <ListItem button>
-                <ListItemIcon><HomeIcon /></ListItemIcon>
-                <ListItemText primary="首页" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon><InfoIcon /></ListItemIcon>
-                <ListItemText primary="关于" />
-              </ListItem>
-              <ListItem button>
-                <ListItemIcon><HelpIcon /></ListItemIcon>
-                <ListItemText primary="帮助" />
-              </ListItem>
-              <ListItem button component="a" href="/male.html">
-                <ListItemIcon><MaleIcon /></ListItemIcon>
-                <ListItemText primary="男性版" />
-              </ListItem>
-              <ListItem button component="a" href="/female.html">
-                <ListItemIcon><FemaleIcon /></ListItemIcon>
-                <ListItemText primary="女性版" />
-              </ListItem>
-            </List>
-          </Box>
-        </Drawer>
-
-        <Container maxWidth="lg" sx={{ py: 4 }}>
-          <Box sx={{ textAlign: 'center', mb: 6 }}>
-            <Typography variant="h3" gutterBottom sx={{
-              background: 'linear-gradient(45deg, #1976D2 30%, #2196F3 90%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontWeight: 700,
-              letterSpacing: '0.5px'
-            }}>
-              男M自评报告
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
+          <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+            男M自评报告
+          </Typography>
+          <Paper elevation={1} sx={{ 
+            mt: 2, 
+            p: 2, 
+            borderRadius: 2,
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            maxWidth: { xs: '100%', md: '80%' },
+            mx: 'auto'
+          }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1, color: 'primary.main', textAlign: 'center' }}>
+              评分等级说明
             </Typography>
-            <Typography variant="subtitle1" sx={{
-              maxWidth: 600,
-              mx: 'auto',
-              color: '#3F51B5',
-              fontSize: '1.1rem',
-              lineHeight: 1.8,
-              fontWeight: 500
-            }}>
-              这是一个专业的男性M倾向评估工具，请根据您的真实想法进行选择。
-            </Typography>
-            <Box sx={{ mt: 3, textAlign: 'center' }}>
-              <Button
-                variant="contained"
-                size="large"
-                startIcon={<AutorenewIcon />}
-                sx={{
-                  background: 'linear-gradient(45deg, #1976D2 30%, #2196F3 90%)',
-                  color: 'white',
-                  padding: '14px 36px',
-                  fontSize: '1.2rem',
-                  fontWeight: 700,
-                  borderRadius: '12px',
-                  boxShadow: '0 4px 12px rgba(25, 118, 210, 0.2)',
-                  transition: 'all 0.3s ease-in-out',
-                  '&:hover': {
-                    background: 'linear-gradient(45deg, #2196F3 30%, #1976D2 90%)',
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 8px 20px rgba(25, 118, 210, 0.3)'
-                  }
-                }}
-                onClick={() => {
-                  const newRatings = {};
-                  Object.entries(CATEGORIES).forEach(([category, items]) => {
-                    items.forEach(item => {
-                      const randomIndex = Math.floor(Math.random() * RATING_OPTIONS.length);
-                      newRatings[`${category}-${item}`] = RATING_OPTIONS[randomIndex];
-                    });
-                  });
-                  setRatings(newRatings);
-                  setSnackbarMessage('已完成随机选择！');
-                  setSnackbarOpen(true);
-                }}
-              >
-                随机选择
-              </Button>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: { xs: 1, md: 2 } }}>
+              <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+                <Box component="span" sx={{ fontWeight: 'bold', color: '#FF1493' }}>SSS</Box> = 非常喜欢
+              </Typography>
+              <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+                <Box component="span" sx={{ fontWeight: 'bold', color: '#FF69B4' }}>SS</Box> = 喜欢
+              </Typography>
+              <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+                <Box component="span" sx={{ fontWeight: 'bold', color: '#87CEEB' }}>S</Box> = 接受
+              </Typography>
+              <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+                <Box component="span" sx={{ fontWeight: 'bold', color: '#FFD700' }}>Q</Box> = 不喜欢但会做
+              </Typography>
+              <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+                <Box component="span" sx={{ fontWeight: 'bold', color: '#FF4500' }}>N</Box> = 拒绝
+              </Typography>
+              <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+                <Box component="span" sx={{ fontWeight: 'bold', color: '#808080' }}>W</Box> = 未知
+              </Typography>
             </Box>
-          </Box>
-
-          <Grid container spacing={4}>
-            {Object.entries(CATEGORIES).map(([category, items]) => (
-              <Grid item xs={12} md={6} key={category}>
-                <Paper sx={{
-                  p: 4,
-                  background: 'linear-gradient(to bottom right, #FFFFFF 0%, #F8F9FA 100%)',
-                  border: '1px solid rgba(25, 118, 210, 0.1)',
-                  boxShadow: '0 8px 16px rgba(25, 118, 210, 0.1)',
-                  '&:hover': {
-                    boxShadow: '0 12px 24px rgba(25, 118, 210, 0.15)'
-                  }
-                }}>
-                  <Typography variant="h5" gutterBottom sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1,
-                    color: '#1976D2',
-                    fontWeight: 600,
-                    letterSpacing: '0.5px'
-                  }}>
-                    {category}
-                    <Select
-                      size="small"
-                      value={selectedBatchRating}
-                      onChange={(e) => {
-                        const items = CATEGORIES[category];
-                        const newRatings = { ...ratings };
-                        items.forEach(item => {
-                          newRatings[`${category}-${item}`] = e.target.value;
-                        });
-                        setRatings(newRatings);
-                        setSnackbarMessage(`已将${category}类别下所有选项设置为${e.target.value}`);
-                        setSnackbarOpen(true);
-                        setSelectedBatchRating('');
-                      }}
-                      displayEmpty
-                      placeholder="一键选择"
-                      renderValue={(value) => value || "一键选择"}
-                      sx={{ ml: 2, minWidth: 100 }}
-                    >
-                      <MenuItem value="">-</MenuItem>
-                      {RATING_OPTIONS.map((option) => (
-                        <MenuItem key={option} value={option}>{option}</MenuItem>
-                      ))}
-                    </Select>
-                  </Typography>
-                  <Grid container spacing={2}>
-                    {items.map((item) => (
-                      <Grid item xs={12} sm={6} key={item}>
-                        <Box sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: 1,
-                        }}>
-                          <Typography variant="body2" sx={{ flex: 1 }}>
-                            {item}
-                          </Typography>
-                          <Select
-                            value={getRating(category, item)}
-                            onChange={(e) => handleRatingChange(category, item, e.target.value)}
-                            size="small"
-                            sx={{
-                              minWidth: 120,
-                              backgroundColor: getRatingColor(getRating(category, item)),
-                              borderRadius: '8px',
-                              '& .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'rgba(25, 118, 210, 0.2)'
-                              },
-                              '&:hover .MuiOutlinedInput-notchedOutline': {
-                                borderColor: 'rgba(25, 118, 210, 0.4)'
-                              },
-                              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                                borderColor: '#1976D2'
-                              },
-                              transition: 'all 0.2s ease-in-out',
-                              '&:hover': {
-                                transform: 'translateY(-2px)',
-                                boxShadow: '0 4px 8px rgba(25, 118, 210, 0.15)'
-                              }
-                            }}
-                          >
-                            <MenuItem value="">-</MenuItem>
-                            {RATING_OPTIONS.map((option) => (
-                              <MenuItem key={option} value={option}>{option}</MenuItem>
-                            ))}
-                          </Select>
-                        </Box>
-                      </Grid>
-                    ))}
-                  </Grid>
-                </Paper>
-              </Grid>
-            ))}
-          </Grid>
-
-          <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center', gap: 2 }}>
+          </Paper>
+          <Box sx={{ mt: 3, textAlign: 'center' }}>
             <Button
               variant="contained"
-              onClick={() => setOpenReport(true)}
-              startIcon={<AssessmentIcon />}
+              size="large"
+              startIcon={<AutorenewIcon />}
+              sx={{
+                background: 'linear-gradient(135deg, #ff4081 0%, #ff79b0 100%)',
+                color: 'white',
+                padding: '12px 32px',
+                fontSize: '1.1rem',
+                fontWeight: 'bold',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #ff79b0 0%, #ff4081 100%)',
+                  transform: 'scale(1.05)',
+                  boxShadow: '0 8px 16px rgba(0,0,0,0.2)'
+                }
+              }}
+              onClick={() => {
+                const newRatings = {};
+                Object.entries(CATEGORIES).forEach(([category, items]) => {
+                  items.forEach(item => {
+                    const randomIndex = Math.floor(Math.random() * RATING_OPTIONS.length);
+                    newRatings[`${category}-${item}`] = RATING_OPTIONS[randomIndex];
+                  });
+                });
+                setRatings(newRatings);
+                setSnackbarMessage('已完成随机选择！');
+                setSnackbarOpen(true);
+              }}
             >
-              生成报告
+              随机选择
             </Button>
           </Box>
-        </Container>
+        </Box>
+        
+        {Object.entries(CATEGORIES).map(([category, items]) => (
+          <Paper key={category} elevation={2} sx={{
+            p: { xs: 3, md: 4 },
+            borderRadius: 3,
+            backgroundColor: 'background.paper',
+            transition: 'all 0.3s ease',
+            '&:hover': {
+              transform: 'translateY(-4px)',
+              boxShadow: '0 12px 24px rgba(0,0,0,0.1)'
+            }
+          }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+              <Typography variant="h5" sx={{ mb: 0 }}>
+                {category}
+              </Typography>
+              <Select
+                size="small"
+                value={selectedBatchRating}
+                onChange={(e) => {
+                  handleSetAllRating(category, e.target.value)
+                  setSelectedBatchRating('')
+                }}
+                displayEmpty
+                placeholder="一键选择"
+                renderValue={(value) => value || "一键选择"}
+                sx={{ minWidth: 120 }}
+              >
+                <MenuItem value=""><em>一键选择</em></MenuItem>
+                {RATING_OPTIONS.map(rating => (
+                  <MenuItem key={rating} value={rating}>{rating}</MenuItem>
+                ))}
+              </Select>
+            </Box>
+            <Grid container spacing={2} sx={{ mt: 0, width: '100%', margin: 0 }}>
+              {items.map(item => (
+                <Grid item xs={12} sm={6} md={4} key={item}>
+                  <Box sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    p: { xs: 1, md: 1.5 },
+                    borderRadius: 2,
+                    height: '100%',
+                    backgroundColor: 'background.paper',
+                    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                    transition: 'all 0.2s ease',
+                    gap: 1,
+                    '&:hover': {
+                      backgroundColor: 'rgba(98, 0, 234, 0.04)',
+                      transform: 'translateX(4px)'
+                    },
+                  }}>
+                    <Box sx={{ 
+                      display: 'flex',
+                      alignItems: 'center',
+                      flexGrow: 1,
+                      minWidth: 0
+                    }}>
+                    <Typography sx={{ 
+                      fontWeight: 500, 
+                      color: 'text.primary',
+                      fontSize: { xs: '0.85rem', md: '1rem' },
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap'
+                    }}>{item}</Typography>
+                    </Box>
+                    <Select
+                      size="small"
+                      value={getRating(category, item)}
+                      onChange={(e) => handleRatingChange(category, item, e.target.value)}
+                      sx={{ 
+                        minWidth: { xs: 100, md: 120 },
+                        '.MuiSelect-select': {
+                          py: 1.5,
+                          px: 2
+                        }
+                      }}
+                    >
+                      <MenuItem value=""><em>请选择</em></MenuItem>
+                      {RATING_OPTIONS.map(rating => (
+                        <MenuItem key={rating} value={rating}>{rating}</MenuItem>
+                      ))}
+                    </Select>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Paper>
+        ))}
+
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 4, gap: 4 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            onClick={() => setOpenReport(true)}
+            sx={{ minWidth: 200 }}
+          >
+            生成报告
+          </Button>
+          <Paper elevation={2} sx={{
+            p: 3,
+            borderRadius: 2,
+            textAlign: 'center',
+            maxWidth: 300,
+            mx: 'auto',
+            backgroundColor: 'white'
+          }}>
+            <Typography variant="subtitle1" sx={{
+              fontWeight: 'bold',
+              color: 'primary.main',
+              mb: 2
+            }}>
+              扫码领取您的XP报告
+            </Typography>
+            <Box component="img" src="https://img.m-profile.top/img/qrcode.png" alt="QR Code" sx={{
+              width: '200px',
+              height: '200px',
+              display: 'block',
+              margin: '0 auto'
+            }} />
+          </Paper>
+        </Box>
 
         <Dialog
           open={openReport}
@@ -706,162 +706,242 @@ function MaleApp() {
           fullWidth
           PaperProps={{
             sx: {
-              maxHeight: '90vh',
+              minHeight: { xs: '95vh', md: 'auto' },
+              maxHeight: { xs: '95vh', md: '90vh' },
               overflowY: 'auto',
+              m: { xs: 1, sm: 2 },
+              width: '100%',
+              maxWidth: { sm: '800px' },
+              mx: 'auto',
+              backgroundColor: '#fafafa',
               '@media print': {
+                height: 'auto',
                 maxHeight: 'none',
                 overflow: 'visible'
               }
             }
           }}
         >
-          <DialogTitle>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Typography variant="h6">评测报告</Typography>
-              <IconButton onClick={() => setOpenReport(false)}>
-                <CloseIcon />
-              </IconButton>
-            </Box>
+          <DialogTitle sx={{ 
+            textAlign: 'center', 
+            fontWeight: 'bold', 
+            pt: { xs: 4, md: 5 },
+            mt: { xs: 2, md: 3 },
+            color: 'primary.main',
+            borderBottom: '2px solid #6200ea',
+            mb: 2
+          }}>
+            男M自评详细报告
           </DialogTitle>
-          <DialogContent dividers ref={reportRef}>
-            <Box sx={{ p: 4, backgroundColor: '#FFFFFF' }}>
-              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
-                <Box component="img" src="https://img.m-profile.top/img/qrcode.png" alt="QR Code" sx={{
-                  width: '150px',
-                  height: '150px',
-                  borderRadius: '12px',
-                  boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-                  marginBottom: '20px'
-                }} />
-              </Box>
-              <Typography variant="h4" gutterBottom align="center" sx={{
-                background: 'linear-gradient(45deg, #0D47A1 30%, #1976D2 90%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: 900,
-                letterSpacing: '2px',
-                marginBottom: '3rem',
-                fontSize: '3rem',
-                textShadow: '0 2px 4px rgba(13, 71, 161, 0.1)',
+          <DialogContent ref={reportRef} sx={{ 
+            px: 4, 
+            py: 3,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 4,
+            '@media print': {
+              overflow: 'visible',
+              height: 'auto'
+            }
+          }}>
+            <Box sx={{ maxWidth: '100%', overflow: 'hidden' }}>
+              <Typography variant="h6" gutterBottom sx={{ 
+                color: 'primary.main', 
+                textAlign: 'center', 
+                fontSize: { xs: '1.1rem', md: '1.2rem' },
+                fontWeight: 'bold',
+                mb: 3,
+                mt: { xs: 3, md: 4 }
+              }}>
+                总体评分分布
+              </Typography>
+              <Box sx={{
+                width: '100%',
+                height: { xs: 260, sm: 280, md: 300 },
                 position: 'relative',
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: '-10px',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: '100px',
-                  height: '4px',
-                  background: 'linear-gradient(90deg, #0D47A1, #1976D2)',
-                  borderRadius: '2px'
+                mb: 4,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                '@media print': {
+                  height: 300,
+                  overflow: 'visible'
                 }
               }}>
-                男M倾向分析报告
-              </Typography>
-              <Box sx={{ mb: 8, display: 'flex', justifyContent: 'center' }}>
-                <RadarChart width={700} height={500} data={getRadarData()} style={{ margin: '0 auto' }}>
-                  <PolarGrid stroke="#1976D2" strokeWidth={1} />
-                  <PolarAngleAxis dataKey="category" tick={{ fill: '#0D47A1', fontSize: 16, fontWeight: 600 }} />
-                  <PolarRadiusAxis angle={30} domain={[0, 6]} tick={{ fill: '#1976D2' }} />
-                  <Radar name="评分" dataKey="value" stroke="#0D47A1" fill="#1976D2" fillOpacity={0.4} strokeWidth={2} />
+                <RadarChart
+                  width={500}
+                  height={300}
+                  data={getRadarData()}
+                  style={{ maxWidth: '100%', width: '100%', height: '100%' }}
+                >
+                  <PolarGrid stroke="#e0e0e0" />
+                  <PolarAngleAxis
+                    dataKey="category"
+                    tick={{
+                      fill: '#2c3e50',
+                      fontSize: window.innerWidth < 600 ? 9 : 12
+                    }}
+                  />
+                  <PolarRadiusAxis angle={30} domain={[0, 6]} tick={{ fill: '#2c3e50' }} />
+                  <Radar name="评分" dataKey="value" stroke="#6200ea" fill="#6200ea" fillOpacity={0.6} animationDuration={500} />
+                  <Radar name="满分" dataKey="fullMark" stroke="#ddd" strokeDasharray="3 3" fill="none" />
+                  <Tooltip />
+                  <Legend wrapperStyle={{ fontSize: window.innerWidth < 600 ? 10 : 12 }} />
                 </RadarChart>
               </Box>
-              <Box sx={{ mb: 4, display: 'flex', flexDirection: 'column', gap: 4 }}>
-                {Object.entries(CATEGORIES).map(([category, items]) => {
-                  // 按评分对项目进行分组
-                  const groupedItems = items.reduce((acc, item) => {
-                    const rating = getRating(category, item);
-                    if (!acc[rating]) acc[rating] = [];
-                    acc[rating].push(item);
-                    return acc;
-                  }, {});
-
-                  return (
-                    <Box key={category} sx={{ backgroundColor: '#F8F9FA', borderRadius: '16px', p: 3, mb: 4 }}>
-                      <Typography variant="h5" gutterBottom sx={{
-                        color: '#1565C0',
-                        fontWeight: 700,
-                        fontSize: '1.5rem',
-                        mb: 3,
-                        display: 'flex',
-                        alignItems: 'center',
-                        '&::before': {
-                          content: '""',
-                          width: '4px',
-                          height: '24px',
-                          backgroundColor: '#1976D2',
-                          marginRight: '12px',
-                          borderRadius: '2px'
-                        }
-                      }}>
-                        {category}
-                      </Typography>
-                      {RATING_OPTIONS.map(rating => {
-                        const items = groupedItems[rating] || [];
-                        if (items.length === 0) return null;
-
-                        return (
-                          <Box key={rating} sx={{ mb: 3 }}>
-                            <Typography variant="h6" sx={{
-                              color: '#1976D2',
-                              fontSize: '1.2rem',
-                              fontWeight: 600,
-                              mb: 2,
-                              pl: 2,
-                              borderLeft: `4px solid ${getRatingColor(rating)}`
-                            }}>
-                              {rating}
-                            </Typography>
-                            <Grid container spacing={1}>
-                              {items.map((item) => (
-                                <Grid item xs={6} sm={4} md={3} key={item}>
-                                  <Paper
-                                    elevation={2}
-                                    sx={{
-                                      p: 1.5,
-                                      backgroundColor: getRatingColor(rating),
-                                      borderRadius: '8px',
-                                      display: 'flex',
-                                      alignItems: 'center',
-                                      justifyContent: 'center',
-                                      minHeight: '40px',
-                                      transition: 'all 0.2s ease',
-                                      '&:hover': {
-                                        transform: 'translateY(-2px)',
-                                        boxShadow: '0 4px 8px rgba(13, 71, 161, 0.15)'
-                                      }
-                                    }}
-                                  >
-                                    <Typography
-                                      variant="body2"
-                                      sx={{
-                                        fontSize: '0.9rem',
-                                        fontWeight: 500,
-                                        color: rating ? '#0D47A1' : '#1976D2',
-                                        textAlign: 'center'
-                                      }}
-                                    >
-                                      {item}
-                                    </Typography>
-                                  </Paper>
-                                </Grid>
-                              ))}
-                            </Grid>
-                          </Box>
-                        );
-                      })}
-                    </Box>
-                  );
-                })}
-              </Box>
+              <Paper elevation={2} sx={{ 
+                mt: 4, 
+                p: 3, 
+                borderRadius: 2,
+                backgroundColor: 'white',
+                maxWidth: '100%',
+                mx: 'auto',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+              }}>
+                <Typography variant="subtitle1" sx={{ 
+                  fontWeight: 'bold', 
+                  mb: 2, 
+                  color: 'primary.main', 
+                  textAlign: 'center',
+                  fontSize: '1rem'
+                }}>
+                  评分等级说明
+                </Typography>
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: { xs: 1, md: 2 } }}>
+                  <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+                    <Box component="span" sx={{ fontWeight: 'bold', color: '#FF1493' }}>SSS</Box> = 非常喜欢
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+                    <Box component="span" sx={{ fontWeight: 'bold', color: '#FF69B4' }}>SS</Box> = 喜欢
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+                    <Box component="span" sx={{ fontWeight: 'bold', color: '#87CEEB' }}>S</Box> = 接受
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+                    <Box component="span" sx={{ fontWeight: 'bold', color: '#FFD700' }}>Q</Box> = 不喜欢但会做
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+                    <Box component="span" sx={{ fontWeight: 'bold', color: '#FF4500' }}>N</Box> = 拒绝
+                  </Typography>
+                  <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
+                    <Box component="span" sx={{ fontWeight: 'bold', color: '#808080' }}>W</Box> = 未知
+                  </Typography>
+                </Box>
+              </Paper>
             </Box>
+            {Object.entries(CATEGORIES).map(([category, items]) => (
+              <Box key={category} sx={{ mb: 2, maxWidth: '100%' }}>
+                <Typography variant="h6" gutterBottom sx={{
+                  color: 'primary.main',
+                  textAlign: 'center',
+                  borderBottom: '2px solid #6200ea',
+                  pb: 0.5,
+                  mb: 1.5,
+                  fontSize: { xs: '1rem', md: '1.1rem' }
+                }}>
+                  {category}
+                </Typography>
+                <Grid container spacing={1.5} justifyContent="center">
+                  {items
+                    .filter(item => getRating(category, item))
+                    .sort((a, b) => {
+                      const ratingOrder = { 'SSS': 0, 'SS': 1, 'S': 2, 'Q': 3, 'N': 4, 'W': 5 };
+                      return ratingOrder[getRating(category, a)] - ratingOrder[getRating(category, b)];
+                    })
+                    .map(item => (
+                    <Grid item xs={6} sm={4} key={item}>
+                      <Paper elevation={1} sx={{
+                        p: 1,
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        gap: 1,
+                        '&:hover': {
+                          backgroundColor: 'rgba(98, 0, 234, 0.04)'
+                        },
+                        backgroundColor: `${getRatingColor(getRating(category, item))}10`,
+                        borderLeft: `3px solid ${getRatingColor(getRating(category, item))}`
+                      }}>
+                        <Typography sx={{
+                          fontWeight: 500,
+                          color: 'text.primary',
+                          fontSize: { xs: '0.8rem', md: '0.85rem' }
+                        }}>
+                          {item}
+                        </Typography>
+                        <Box
+                          sx={{
+                            backgroundColor: getRatingColor(getRating(category, item)),
+                            color: '#fff',
+                            padding: '2px 6px',
+                            borderRadius: '4px',
+                            display: 'inline-block',
+                            fontWeight: 'bold',
+                            minWidth: '50px',
+                            textAlign: 'center',
+                            fontSize: { xs: '0.8rem', md: '0.85rem' }
+                          }}
+                        >
+                          {getRating(category, item)}
+                        </Box>
+                      </Paper>
+                    </Grid>
+                  ))}
+                </Grid>
+              </Box>
+            ))}
+            <Paper elevation={2} sx={{
+              p: 3,
+              borderRadius: 2,
+              textAlign: 'center',
+              maxWidth: 300,
+              mx: 'auto',
+              backgroundColor: 'white',
+              mt: 4
+            }}>
+              <Box component="img" src="https://img.m-profile.top/img/qrcode.png" alt="QR Code" sx={{
+                width: '200px',
+                height: '200px',
+                display: 'block',
+                margin: '0 auto'
+              }} />
+            </Paper>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleExportImage} startIcon={<AssessmentIcon />}>
+          <DialogActions sx={{ 
+            justifyContent: 'center', 
+            pb: 3, 
+            pt: 2,
+            gap: 2,
+            borderTop: '1px solid rgba(0,0,0,0.1)',
+            backgroundColor: 'white'
+          }}>
+            <Button
+              onClick={handleExportImage}
+              variant="contained"
+              color="primary"
+            >
               保存为图片
             </Button>
-            <Button onClick={handleExportPDF} startIcon={<AssessmentIcon />}>
-              导出PDF
+            <Button
+              onClick={handleExportPDF}
+              variant="contained"
+              color="secondary"
+            >
+              保存为PDF
+            </Button>
+            <Button
+              onClick={handleShareToWeChat}
+              variant="contained" color="info"
+            >
+              分享到微信
+            </Button>
+            <Button
+              onClick={() => setOpenReport(false)}
+              variant="outlined"
+              color="error"
+              startIcon={<CloseIcon />}
+            >
+              关闭报告
             </Button>
           </DialogActions>
         </Dialog>
@@ -871,10 +951,11 @@ function MaleApp() {
           autoHideDuration={3000}
           onClose={() => setSnackbarOpen(false)}
           message={snackbarMessage}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         />
-      </Box>
+      </Container>
     </ThemeProvider>
-  )
+  );
 }
 
-export default MaleApp
+export default App;
