@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { Container, Typography, Paper, Grid, Box, Select, MenuItem, Button, Dialog, DialogTitle, DialogContent, DialogActions, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Snackbar, AppBar, Toolbar, Drawer, List, ListItem, ListItemIcon, ListItemText, createTheme, ThemeProvider } from '@mui/material'
+import './styles/pixel-theme.css'
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 import html2canvas from 'html2canvas'
 import html2pdf from 'html2pdf.js'
@@ -135,13 +136,13 @@ function App() {
 
   const getRatingColor = (rating) => {
     switch(rating) {
-      case 'SSS': return '#FF1493' // 鲜艳的粉红色
-      case 'SS': return '#9932CC'  // 深紫色
-      case 'S': return '#1E90FF'   // 道奇蓝
-      case 'Q': return '#32CD32'   // 酸橙绿
-      case 'N': return '#FF8C00'   // 深橙色
-      case 'W': return '#8B4513'   // 马鞍棕色
-      default: return '#D3D3D3'    // 浅灰色
+      case 'SSS': return '#1E3D59' // 深海蓝
+      case 'SS': return '#2C5530'  // 深森绿
+      case 'S': return '#37474F'   // 深蓝灰
+      case 'Q': return '#455A64'   // 蓝灰
+      case 'N': return '#546E7A'   // 中蓝灰
+      case 'W': return '#607D8B'   // 浅蓝灰
+      default: return '#90A4AE'    // 极浅蓝灰
     }
   }
 
@@ -435,16 +436,39 @@ function App() {
     <ThemeProvider theme={theme}>
 
       <AppBar position="sticky" sx={{
-        background: 'linear-gradient(135deg, #6200ea 0%, #9d46ff 100%)',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+        background: '#000',
+        border: '2px solid #fff',
+        borderStyle: 'double',
+        boxShadow: 'none',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'repeating-linear-gradient(0deg, #000 0px, #000 1px, transparent 1px, transparent 2px)',
+          opacity: 0.1,
+          pointerEvents: 'none'
+        }
       }}>
-
         <Container maxWidth="lg">
           <Toolbar sx={{ 
             justifyContent: 'space-between', 
             alignItems: 'center',
             padding: { xs: '8px 16px', md: '8px 24px' },
-            minHeight: { xs: '56px', md: '64px' }
+            minHeight: { xs: '56px', md: '64px' },
+            '& .MuiButton-root': {
+              fontFamily: '"Press Start 2P", cursive',
+              fontSize: '0.8rem',
+              border: '2px solid #fff',
+              '&:hover': {
+                background: '#fff',
+                color: '#000',
+                transform: 'translateY(0)',
+                boxShadow: 'none'
+              }
+            }
           }}>
             <Box sx={{ 
               display: 'flex', 
@@ -456,6 +480,7 @@ function App() {
             }}>
               <ScienceIcon sx={{ display: 'flex' }} />
               <Typography variant="h5" sx={{
+                fontFamily: '"Press Start 2P", cursive',
                 fontWeight: 'bold',
                 color: 'white',
                 display: 'flex',
@@ -463,7 +488,10 @@ function App() {
                 margin: 0,
                 padding: 0,
                 lineHeight: 1,
-                height: '100%'
+                height: '100%',
+                fontSize: '1rem',
+                letterSpacing: '0.1em',
+                textShadow: '2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000'
               }}>
                 M-Profile Lab
               </Typography>
@@ -473,7 +501,14 @@ function App() {
               display: { xs: 'none', md: 'flex' }, 
               gap: 2,
               flex: '1 1 auto',
-              justifyContent: 'flex-end'
+              justifyContent: 'flex-end',
+              '& .MuiButton-root': {
+                border: '2px solid #fff',
+                '&:hover': {
+                  background: '#fff',
+                  color: '#000'
+                }
+              }
             }}>              
               <Button color="inherit" startIcon={<HomeIcon />} href="/index.html">首页</Button>
               <Button color="inherit" startIcon={<InfoIcon />}>关于</Button>
@@ -483,7 +518,16 @@ function App() {
 
             <IconButton
               color="inherit"
-              sx={{ display: { xs: 'block', md: 'none' } }}
+              sx={{ 
+                display: { xs: 'block', md: 'none' },
+                border: '2px solid #fff',
+                borderRadius: '4px',
+                padding: '4px',
+                '&:hover': {
+                  background: '#fff',
+                  color: '#000'
+                }
+              }}
               onClick={() => setMobileMenuOpen(true)}
             >
               <MenuIcon />
@@ -547,7 +591,7 @@ function App() {
         }
       }}>
         <Box sx={{ textAlign: 'center', mb: 4 }}>
-          <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+          <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', color: 'black' }}>
             男M自评报告
           </Typography>
           <Paper elevation={1} sx={{ 
@@ -558,7 +602,7 @@ function App() {
             maxWidth: { xs: '100%', md: '80%' },
             mx: 'auto'
           }}>
-            <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1, color: 'primary.main', textAlign: 'center' }}>
+            <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1, color: '#000000', textAlign: 'center' }}>
               评分等级说明
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: { xs: 1, md: 2 } }}>
@@ -587,18 +631,8 @@ function App() {
               variant="contained"
               size="large"
               startIcon={<AutorenewIcon />}
-              sx={{
-                background: 'linear-gradient(135deg, #ff4081 0%, #ff79b0 100%)',
-                color: 'white',
-                padding: '12px 32px',
-                fontSize: '1.1rem',
-                fontWeight: 'bold',
-                '&:hover': {
-                  background: 'linear-gradient(135deg, #ff79b0 0%, #ff4081 100%)',
-                  transform: 'scale(1.05)',
-                  boxShadow: '0 8px 16px rgba(0,0,0,0.2)'
-                }
-              }}
+              className="pixel-button"
+              sx={{ fontFamily: '"Press Start 2P", cursive' }}
               onClick={() => {
                 const newRatings = {};
                 Object.entries(CATEGORIES).forEach(([category, items]) => {
@@ -629,7 +663,7 @@ function App() {
             }
           }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
-              <Typography variant="h5" sx={{ mb: 0 }}>
+              <Typography variant="h5" sx={{ mb: 0, color: 'black' }}>
                 {category}
               </Typography>
               <Select
@@ -740,6 +774,7 @@ function App() {
             color="primary"
             size="large"
             onClick={() => setOpenReport(true)}
+            className="pixel-button"
             sx={{ minWidth: 200 }}
           >
             生成报告
@@ -796,7 +831,7 @@ function App() {
             fontWeight: 'bold', 
             pt: { xs: 4, md: 5 },
             mt: { xs: 2, md: 3 },
-            color: 'primary.main',
+            color: 'black',
             borderBottom: '2px solid #6200ea',
             mb: 2
           }}>
@@ -901,7 +936,7 @@ function App() {
             {Object.entries(CATEGORIES).map(([category, items]) => (
               <Box key={category} sx={{ mb: 2, maxWidth: '100%' }}>
                 <Typography variant="h6" gutterBottom sx={{
-                  color: 'primary.main',
+                  color: 'black',
                   textAlign: 'center',
                   borderBottom: '2px solid #6200ea',
                   pb: 0.5,
