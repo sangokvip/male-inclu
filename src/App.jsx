@@ -8,7 +8,7 @@ import HomeIcon from '@mui/icons-material/Home'
 import InfoIcon from '@mui/icons-material/Info'
 import HelpIcon from '@mui/icons-material/Help'
 import MenuIcon from '@mui/icons-material/Menu'
-import AutorenewIcon from '@mui/icons-material/Autorenew'
+
 import CloseIcon from '@mui/icons-material/Close'
 
 const RATING_OPTIONS = ['SSS', 'SS', 'S', 'Q', 'N', 'W']
@@ -455,23 +455,8 @@ function App() {
       >
         <Box sx={{ width: 250, pt: 2 }}>
           <List>
-            <ListItem button onClick={() => {
-              const newRatings = {};
-              Object.entries(CATEGORIES).forEach(([category, items]) => {
-                items.forEach(item => {
-                  const randomIndex = Math.floor(Math.random() * RATING_OPTIONS.length);
-                  newRatings[`${category}-${item}`] = RATING_OPTIONS[randomIndex];
-                });
-              });
-              setRatings(newRatings);
-              setSnackbarMessage('已完成随机选择！');
-              setSnackbarOpen(true);
-              setMobileMenuOpen(false);
-            }}>
-              <ListItemIcon><AutorenewIcon /></ListItemIcon>
-              <ListItemText primary="随机选择" />
-            </ListItem>
-            <ListItem button onClick={() => setMobileMenuOpen(false)} component="a" href="/index.html">
+
+            <ListItem button onClick={() => setMobileMenuOpen(false)}>
               <ListItemIcon><HomeIcon /></ListItemIcon>
               <ListItemText primary="首页" />
             </ListItem>
@@ -538,39 +523,7 @@ function App() {
               </Typography>
             </Box>
           </Paper>
-          <Box sx={{ mt: 3, textAlign: 'center' }}>
-            <Button
-              variant="contained"
-              size="large"
-              startIcon={<AutorenewIcon />}
-              sx={{
-                background: 'linear-gradient(135deg, #ff4081 0%, #ff79b0 100%)',
-                color: 'white',
-                padding: '12px 32px',
-                fontSize: '1.1rem',
-                fontWeight: 'bold',
-                '&:hover': {
-                  background: 'linear-gradient(135deg, #ff79b0 0%, #ff4081 100%)',
-                  transform: 'scale(1.05)',
-                  boxShadow: '0 8px 16px rgba(0,0,0,0.2)'
-                }
-              }}
-              onClick={() => {
-                const newRatings = {};
-                Object.entries(CATEGORIES).forEach(([category, items]) => {
-                  items.forEach(item => {
-                    const randomIndex = Math.floor(Math.random() * RATING_OPTIONS.length);
-                    newRatings[`${category}-${item}`] = RATING_OPTIONS[randomIndex];
-                  });
-                });
-                setRatings(newRatings);
-                setSnackbarMessage('已完成随机选择！');
-                setSnackbarOpen(true);
-              }}
-            >
-              随机选择
-            </Button>
-          </Box>
+
         </Box>
         
         {Object.entries(CATEGORIES).map(([category, items]) => (

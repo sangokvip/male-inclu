@@ -543,22 +543,7 @@ function App() {
       >
         <Box sx={{ width: 250, pt: 2 }}>
           <List>
-            <ListItem button onClick={() => {
-              const newRatings = {};
-              Object.entries(CATEGORIES).forEach(([category, items]) => {
-                items.forEach(item => {
-                  const randomIndex = Math.floor(Math.random() * RATING_OPTIONS.length);
-                  newRatings[`${category}-${item}`] = RATING_OPTIONS[randomIndex];
-                });
-              });
-              setRatings(newRatings);
-              setSnackbarMessage('已完成随机选择！');
-              setSnackbarOpen(true);
-              setMobileMenuOpen(false);
-            }}>
-              <ListItemIcon><AutorenewIcon /></ListItemIcon>
-              <ListItemText primary="随机选择" />
-            </ListItem>
+
             <ListItem button component="a" href="/index.html" onClick={() => setMobileMenuOpen(false)}>
               <ListItemIcon><HomeIcon /></ListItemIcon>
               <ListItemText primary="首页" />
