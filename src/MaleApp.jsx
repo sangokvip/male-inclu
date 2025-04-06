@@ -11,6 +11,13 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
 
+const MENU_ITEMS = [
+  { icon: <HomeIcon />, text: '首页', href: '/index.html' },
+  { icon: <ScienceIcon />, text: '评分说明', onClick: () => setOpenHelp(true) },
+  { icon: <InfoIcon />, text: '关于', onClick: () => setOpenAbout(true) },
+  { icon: <HelpIcon />, text: '帮助', onClick: () => setOpenGuide(true) }
+]
+
 const RATING_OPTIONS = ['SSS', 'SS', 'S', 'Q', 'N', 'W']
 const CATEGORIES = {
   '👣 恋足': ['🧎 跪拜', '🦶 足交', '👃 闻脚', '👅 舔足(无味)', '👅 舔足(原味)', '🧦 舔袜(无味)', '🧦 舔袜(原味)', '🤐 袜堵嘴', '👞 舔鞋(调用)', '👠 舔鞋(户外穿)', '🍽️ 足喂食', '💧 喝洗脚水', '💦 喝洗袜水', '👄 足深喉', '🦵 踢打', '🦶 裸足踩踏', '👠 高跟踩踏'],
@@ -128,13 +135,13 @@ function App() {
 
   const getRatingColor = (rating) => {
     switch(rating) {
-      case 'SSS': return '#1E3D59'
-      case 'SS': return '#2B5876'
-      case 'S': return '#3F72AF'
-      case 'Q': return '#5E8AB4'
-      case 'N': return '#7B9EC9'
-      case 'W': return '#A1B5CB'
-      default: return '#D3D3D3'
+      case 'SSS': return '#FF1493' // 鲜艳的粉红色
+      case 'SS': return '#9932CC'  // 深紫色
+      case 'S': return '#1E90FF'   // 道奇蓝
+      case 'Q': return '#32CD32'   // 酸橙绿
+      case 'N': return '#FF8C00'   // 深橙色
+      case 'W': return '#8B4513'   // 马鞍棕色
+      default: return '#D3D3D3'    // 浅灰色
     }
   }
 
@@ -184,13 +191,15 @@ function App() {
     if (reportRef.current) {
       try {
         const reportElement = reportRef.current;
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         
         // 创建一个新的容器元素
         const container = document.createElement('div');
         container.style.position = 'absolute';
         container.style.left = '-9999px';
         container.style.top = '-9999px';
-        container.style.width = '1200px'; // 固定宽度以确保一致的布局
+        // 根据设备类型调整容器宽度
+        container.style.width = isMobile ? '900px' : '1200px'; // 移动端使用较小宽度以优化比例
         container.style.backgroundColor = '#ffffff';
         document.body.appendChild(container);
 
@@ -203,7 +212,7 @@ function App() {
         optionsGrids.forEach(grid => {
           grid.style.display = 'grid';
           grid.style.gridTemplateColumns = 'repeat(3, 1fr)';
-          grid.style.gap = '1rem';
+          grid.style.gap = isMobile ? '0.8rem' : '1rem'; // 移动端减小间距
           grid.style.width = '100%';
           grid.style.margin = '0 auto';
           // 确保每个选项有足够的空间
@@ -212,11 +221,11 @@ function App() {
             item.style.minWidth = '0';
             item.style.flexWrap = 'nowrap';
             item.style.overflow = 'hidden';
-            item.style.fontSize = '1.8em';
-            // 增大评分等级说明的字体
+            item.style.fontSize = isMobile ? '1.5em' : '1.8em'; // 移动端适当减小字体
+            // 调整评分等级说明的字体
             const ratingText = item.querySelector('.rating-text');
             if (ratingText) {
-              ratingText.style.fontSize = '1.6em';
+              ratingText.style.fontSize = isMobile ? '1.3em' : '1.6em';
             }
           });
         });
@@ -234,32 +243,34 @@ function App() {
           dialogElement.style.overflow = 'visible';
           dialogElement.style.display = 'block';
           dialogElement.style.margin = '0';
-          dialogElement.style.padding = '2rem';
+          dialogElement.style.padding = isMobile ? '1.5rem' : '2rem'; // 移动端减小内边距
           dialogElement.style.boxSizing = 'border-box';
 
-          // 增大标题字体
+          // 调整标题字体
           const titles = dialogElement.querySelectorAll('.section-title');
           titles.forEach(title => {
-            title.style.fontSize = '2.2em';
+            title.style.fontSize = isMobile ? '1.8em' : '2.2em'; // 移动端适当减小标题字体
           });
 
-          // 增大图表字体
+          // 调整图表字体
           const charts = dialogElement.querySelectorAll('.recharts-text');
           charts.forEach(text => {
-            text.style.fontSize = '1.6em';
+            text.style.fontSize = isMobile ? '1.4em' : '1.6em'; // 移动端适当减小图表字体
           });
         }
 
         // 确保所有图表都已渲染
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 800)); // 增加等待时间确保图表完全渲染
 
         const canvas = await html2canvas(container, {
-          scale: 2,
+          scale: isMobile ? 3 : 2, // 移动端提高scale值以增加清晰度
           useCORS: true,
           allowTaint: true,
           logging: false,
           backgroundColor: '#ffffff',
           imageTimeout: 0,
+          width: container.offsetWidth, // 确保使用实际宽度
+          height: container.offsetHeight, // 确保使用实际高度
           onclone: (clonedDoc) => {
             const charts = clonedDoc.querySelectorAll('.recharts-wrapper');
             charts.forEach(chart => {
@@ -271,17 +282,17 @@ function App() {
 
         // 清理临时元素
         document.body.removeChild(container);
-
-        // 将Canvas转换为Blob对象
+        
+        // 优化图片质量 - 将Canvas转换为高质量Blob对象
         const blob = await new Promise(resolve => {
-          canvas.toBlob(resolve, 'image/png', 1.0)
+          canvas.toBlob(resolve, 'image/png', 1.0) // 使用最高质量
         })
 
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+        // 已在前面定义了isMobile变量
 
         if (isMobile) {
           try {
-            // 尝试使用Web Share API
+            // 方法1: 尝试使用Web Share API (最现代的方法)
             if (navigator.share && navigator.canShare) {
               const file = new File([blob], '男M自评报告.png', { type: 'image/png' })
               const shareData = { files: [file] }
@@ -294,60 +305,71 @@ function App() {
               }
             }
 
-            // 如果Web Share API不可用，尝试使用FileSaver.js
+            // 方法2: 尝试使用FileSaver.js
             try {
               const FileSaver = await import('file-saver');
-              await FileSaver.saveAs(blob, '男M自评报告.png');
+              FileSaver.saveAs(blob, '男M自评报告.png');
               setSnackbarMessage('报告已保存到相册！');
               setSnackbarOpen(true);
               return;
             } catch (error) {
               console.error('FileSaver error:', error);
-              // 如果FileSaver失败，尝试使用传统下载方法
-              try {
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = '男M自评报告.png';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-                setSnackbarMessage('报告已保存为图片！');
-                setSnackbarOpen(true);
-                return;
-              } catch (downloadError) {
-                console.error('Traditional download error:', downloadError);
-                setSnackbarMessage('保存图片失败，请尝试使用保存为PDF功能！');
-                setSnackbarOpen(true);
-              }
             }
 
-            // 回退方案：使用传统的下载方法
-            const url = URL.createObjectURL(blob)
-            const link = document.createElement('a')
-            link.href = url
-            link.download = '男M自评报告.png'
-            link.style.display = 'none'
-            document.body.appendChild(link)
-            link.click()
-            document.body.removeChild(link)
-            URL.revokeObjectURL(url)
-            setSnackbarMessage('报告已保存为高清图片！')
-            setSnackbarOpen(true)
+            // 方法3: 尝试使用传统下载方法 - 创建临时链接
+            try {
+              const url = URL.createObjectURL(blob);
+              const link = document.createElement('a');
+              link.href = url;
+              link.download = '男M自评报告.png';
+              // 在iOS上，需要将链接添加到DOM并模拟点击
+              document.body.appendChild(link);
+              link.click();
+              // 给足够的时间让浏览器处理下载
+              setTimeout(() => {
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+              }, 1000);
+              setSnackbarMessage('报告已保存为图片！');
+              setSnackbarOpen(true);
+              return;
+            } catch (downloadError) {
+              console.error('Traditional download error:', downloadError);
+            }
+
+            // 方法4: 尝试使用data URL方法 (适用于某些移动浏览器)
+            try {
+              const dataUrl = canvas.toDataURL('image/png');
+              const link = document.createElement('a');
+              link.href = dataUrl;
+              link.download = '男M自评报告.png';
+              link.target = '_blank'; // 在新标签页打开可能有助于某些移动浏览器
+              document.body.appendChild(link);
+              link.click();
+              setTimeout(() => document.body.removeChild(link), 1000);
+              setSnackbarMessage('报告已保存为高清图片！');
+              setSnackbarOpen(true);
+              return;
+            } catch (dataUrlError) {
+              console.error('Data URL error:', dataUrlError);
+            }
+
+            // 所有方法都失败时的提示
+            setSnackbarMessage('保存图片失败，请尝试使用保存为PDF功能！');
+            setSnackbarOpen(true);
           } catch (error) {
-            console.error('保存图片错误:', error)
-            setSnackbarMessage('保存图片失败，请尝试使用保存为PDF功能！')
-            setSnackbarOpen(true)
+            console.error('保存图片错误:', error);
+            setSnackbarMessage('保存图片失败，请尝试使用保存为PDF功能！');
+            setSnackbarOpen(true);
           }
         } else {
           // 桌面端使用传统下载方法
-          const url = URL.createObjectURL(blob)
-          const link = document.createElement('a')
-          link.href = url
-          link.download = '男M自评报告.png'
-          link.click()
-          URL.revokeObjectURL(url)
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = '男M自评报告.png';
+          link.click();
+          URL.revokeObjectURL(url);
           setSnackbarMessage('报告已保存为高清图片！')
           setSnackbarOpen(true)
         }
@@ -453,7 +475,7 @@ function App() {
               flex: '1 1 auto',
               justifyContent: 'flex-end'
             }}>              
-              <Button color="inherit" startIcon={<HomeIcon />}>首页</Button>
+              <Button color="inherit" startIcon={<HomeIcon />} href="/index.html">首页</Button>
               <Button color="inherit" startIcon={<InfoIcon />}>关于</Button>
               <Button color="inherit" startIcon={<HelpIcon />}>使用指南</Button>
               <Button color="inherit" href="/female.html">女性版</Button>
@@ -493,7 +515,7 @@ function App() {
               <ListItemIcon><AutorenewIcon /></ListItemIcon>
               <ListItemText primary="随机选择" />
             </ListItem>
-            <ListItem button onClick={() => setMobileMenuOpen(false)}>
+            <ListItem button component="a" href="/index.html" onClick={() => setMobileMenuOpen(false)}>
               <ListItemIcon><HomeIcon /></ListItemIcon>
               <ListItemText primary="首页" />
             </ListItem>
@@ -505,8 +527,8 @@ function App() {
               <ListItemIcon><HelpIcon /></ListItemIcon>
               <ListItemText primary="使用指南" />
             </ListItem>
-            <ListItem button component="a" href="/male.html">
-              <ListItemText primary="男性版" />
+            <ListItem button component="a" href="/female.html">
+              <ListItemText primary="女性版" />
             </ListItem>
           </List>
         </Box>
@@ -638,13 +660,25 @@ function App() {
                     p: { xs: 1, md: 1.5 },
                     borderRadius: 2,
                     height: '100%',
-                    backgroundColor: 'background.paper',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                    transition: 'all 0.2s ease',
+                    backgroundColor: getRating(category, item) ? 
+                      `${getRatingColor(getRating(category, item))}20` : // 添加20表示12.5%透明度
+                      'background.paper',
+                    boxShadow: getRating(category, item) ?
+                      `0 1px 4px ${getRatingColor(getRating(category, item))}60` :
+                      '0 1px 3px rgba(0,0,0,0.1)',
+                    borderLeft: getRating(category, item) ?
+                      `3px solid ${getRatingColor(getRating(category, item))}` :
+                      'none',
+                    transition: 'all 0.3s ease',
                     gap: 1,
                     '&:hover': {
-                      backgroundColor: 'rgba(98, 0, 234, 0.04)',
-                      transform: 'translateX(4px)'
+                      backgroundColor: getRating(category, item) ? 
+                        `${getRatingColor(getRating(category, item))}30` : // 悬停时增加透明度到约18.75%
+                        'rgba(98, 0, 234, 0.04)',
+                      transform: 'translateX(4px)',
+                      boxShadow: getRating(category, item) ?
+                        `0 2px 8px ${getRatingColor(getRating(category, item))}80` :
+                        '0 2px 6px rgba(0,0,0,0.15)',
                     },
                   }}>
                     <Box sx={{ 
@@ -655,11 +689,14 @@ function App() {
                     }}>
                     <Typography sx={{ 
                       fontWeight: 500, 
-                      color: 'text.primary',
+                      color: getRating(category, item) ? 
+                        `${getRatingColor(getRating(category, item))}` : 
+                        'text.primary',
                       fontSize: { xs: '0.85rem', md: '1rem' },
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap'
+                      whiteSpace: 'nowrap',
+                      transition: 'color 0.3s ease'
                     }}>{item}</Typography>
                     </Box>
                     <Select
@@ -670,7 +707,18 @@ function App() {
                         minWidth: { xs: 100, md: 120 },
                         '.MuiSelect-select': {
                           py: 1.5,
-                          px: 2
+                          px: 2,
+                          color: getRating(category, item) ? getRatingColor(getRating(category, item)) : 'inherit'
+                        },
+                        '& .MuiOutlinedInput-notchedOutline': {
+                          borderColor: getRating(category, item) ? `${getRatingColor(getRating(category, item))}80` : 'rgba(0, 0, 0, 0.23)',
+                          transition: 'border-color 0.3s ease'
+                        },
+                        '&:hover .MuiOutlinedInput-notchedOutline': {
+                          borderColor: getRating(category, item) ? getRatingColor(getRating(category, item)) : 'rgba(0, 0, 0, 0.23)'
+                        },
+                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                          borderColor: getRating(category, item) ? getRatingColor(getRating(category, item)) : 'primary.main'
                         }
                       }}
                     >

@@ -431,7 +431,7 @@ function App() {
               flex: '1 1 auto',
               justifyContent: 'flex-end'
             }}>              
-              <Button color="inherit" startIcon={<HomeIcon />}>首页</Button>
+              <Button color="inherit" startIcon={<HomeIcon />} href="/index.html">首页</Button>
               <Button color="inherit" startIcon={<InfoIcon />}>关于</Button>
               <Button color="inherit" startIcon={<HelpIcon />}>使用指南</Button>
               <Button color="inherit" href="/male.html">男性版</Button>
@@ -471,7 +471,7 @@ function App() {
               <ListItemIcon><AutorenewIcon /></ListItemIcon>
               <ListItemText primary="随机选择" />
             </ListItem>
-            <ListItem button onClick={() => setMobileMenuOpen(false)}>
+            <ListItem button onClick={() => setMobileMenuOpen(false)} component="a" href="/index.html">
               <ListItemIcon><HomeIcon /></ListItemIcon>
               <ListItemText primary="首页" />
             </ListItem>
@@ -616,13 +616,25 @@ function App() {
                     p: { xs: 1, md: 1.5 },
                     borderRadius: 2,
                     height: '100%',
-                    backgroundColor: 'background.paper',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                    transition: 'all 0.2s ease',
+                    backgroundColor: getRating(category, item) ? 
+                      `${getRatingColor(getRating(category, item))}20` : // 添加20表示12.5%透明度
+                      'background.paper',
+                    boxShadow: getRating(category, item) ?
+                      `0 1px 4px ${getRatingColor(getRating(category, item))}60` :
+                      '0 1px 3px rgba(0,0,0,0.1)',
+                    borderLeft: getRating(category, item) ?
+                      `3px solid ${getRatingColor(getRating(category, item))}` :
+                      'none',
+                    transition: 'all 0.3s ease',
                     gap: 1,
                     '&:hover': {
-                      backgroundColor: 'rgba(98, 0, 234, 0.04)',
-                      transform: 'translateX(4px)'
+                      backgroundColor: getRating(category, item) ? 
+                        `${getRatingColor(getRating(category, item))}30` : // 悬停时增加透明度到约18.75%
+                        'rgba(98, 0, 234, 0.04)',
+                      transform: 'translateX(4px)',
+                      boxShadow: getRating(category, item) ?
+                        `0 2px 8px ${getRatingColor(getRating(category, item))}80` :
+                        '0 2px 6px rgba(0,0,0,0.15)',
                     },
                   }}>
                     <Box sx={{ 
@@ -633,11 +645,14 @@ function App() {
                     }}>
                     <Typography sx={{ 
                       fontWeight: 500, 
-                      color: 'text.primary',
+                      color: getRating(category, item) ? 
+                        `${getRatingColor(getRating(category, item))}` : 
+                        'text.primary',
                       fontSize: { xs: '0.85rem', md: '1rem' },
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap'
+                      whiteSpace: 'nowrap',
+                      transition: 'color 0.3s ease'
                     }}>{item}</Typography>
                     </Box>
                     <Select
