@@ -8,7 +8,7 @@ import HomeIcon from '@mui/icons-material/Home'
 import InfoIcon from '@mui/icons-material/Info'
 import HelpIcon from '@mui/icons-material/Help'
 import MenuIcon from '@mui/icons-material/Menu'
-
+import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
 
 const RATING_OPTIONS = ['SSS', 'SS', 'S', 'Q', 'N', 'W']
@@ -252,18 +252,32 @@ function App() {
         // 确保所有图表都已渲染
         await new Promise(resolve => setTimeout(resolve, 500));
 
+        // 预加载二维码图片
+        await new Promise((resolve, reject) => {
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = resolve;
+          img.onerror = reject;
+          img.src = '/img/qrcode.png';
+        }).catch(err => console.warn('二维码图片预加载失败:', err));
+
         const canvas = await html2canvas(container, {
           scale: 2,
           useCORS: true,
           allowTaint: true,
           logging: false,
           backgroundColor: '#ffffff',
-          imageTimeout: 0,
+          imageTimeout: 15000,
           onclone: (clonedDoc) => {
             const charts = clonedDoc.querySelectorAll('.recharts-wrapper');
             charts.forEach(chart => {
               chart.style.width = '100%';
               chart.style.height = 'auto';
+            });
+            // 设置二维码图片的crossOrigin属性
+            const qrcodeImages = clonedDoc.querySelectorAll('img[src*="qrcode"]');
+            qrcodeImages.forEach(img => {
+              img.crossOrigin = 'anonymous';
             });
           }
         });
@@ -455,7 +469,22 @@ function App() {
       >
         <Box sx={{ width: 250, pt: 2 }}>
           <List>
-
+            <ListItem button onClick={() => {
+              const newRatings = {};
+              Object.entries(CATEGORIES).forEach(([category, items]) => {
+                items.forEach(item => {
+                  const randomIndex = Math.floor(Math.random() * RATING_OPTIONS.length);
+                  newRatings[`${category}-${item}`] = RATING_OPTIONS[randomIndex];
+                });
+              });
+              setRatings(newRatings);
+              setSnackbarMessage('已完成随机选择！');
+              setSnackbarOpen(true);
+              setMobileMenuOpen(false);
+            }}>
+              <ListItemIcon><AutorenewIcon /></ListItemIcon>
+              <ListItemText primary="随机选择" />
+            </ListItem>
             <ListItem button onClick={() => setMobileMenuOpen(false)}>
               <ListItemIcon><HomeIcon /></ListItemIcon>
               <ListItemText primary="首页" />
@@ -523,7 +552,39 @@ function App() {
               </Typography>
             </Box>
           </Paper>
-
+          <Box sx={{ mt: 3, textAlign: 'center' }}>
+            <Button
+              variant="contained"
+              size="large"
+              startIcon={<AutorenewIcon />}
+              sx={{
+                background: 'linear-gradient(135deg, #ff4081 0%, #ff79b0 100%)',
+                color: 'white',
+                padding: '12px 32px',
+                fontSize: '1.1rem',
+                fontWeight: 'bold',
+                '&:hover': {
+                  background: 'linear-gradient(135deg, #ff79b0 0%, #ff4081 100%)',
+                  transform: 'scale(1.05)',
+                  boxShadow: '0 8px 16px rgba(0,0,0,0.2)'
+                }
+              }}
+              onClick={() => {
+                const newRatings = {};
+                Object.entries(CATEGORIES).forEach(([category, items]) => {
+                  items.forEach(item => {
+                    const randomIndex = Math.floor(Math.random() * RATING_OPTIONS.length);
+                    newRatings[`${category}-${item}`] = RATING_OPTIONS[randomIndex];
+                  });
+                });
+                setRatings(newRatings);
+                setSnackbarMessage('已完成随机选择！');
+                setSnackbarOpen(true);
+              }}
+            >
+              随机选择
+            </Button>
+          </Box>
         </Box>
         
         {Object.entries(CATEGORIES).map(([category, items]) => (

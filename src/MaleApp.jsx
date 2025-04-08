@@ -193,6 +193,15 @@ function App() {
       try {
         const reportElement = reportRef.current;
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+        // 预加载二维码图片
+        await new Promise((resolve, reject) => {
+          const img = new Image();
+          img.crossOrigin = 'anonymous';
+          img.onload = resolve;
+          img.onerror = reject;
+          img.src = '/img/qrcode.png';
+        }).catch(err => console.warn('二维码图片预加载失败:', err));
         
         // 创建一个新的容器元素
         const container = document.createElement('div');
@@ -269,7 +278,7 @@ function App() {
           allowTaint: true,
           logging: false,
           backgroundColor: '#ffffff',
-          imageTimeout: 0,
+          imageTimeout: 15000,
           width: container.offsetWidth, // 确保使用实际宽度
           height: container.offsetHeight, // 确保使用实际高度
           onclone: (clonedDoc) => {
@@ -277,6 +286,11 @@ function App() {
             charts.forEach(chart => {
               chart.style.width = '100%';
               chart.style.height = 'auto';
+            });
+            // 设置二维码图片的crossOrigin属性
+            const qrcodeImages = clonedDoc.querySelectorAll('img[src*="qrcode"]');
+            qrcodeImages.forEach(img => {
+              img.crossOrigin = 'anonymous';
             });
           }
         });
