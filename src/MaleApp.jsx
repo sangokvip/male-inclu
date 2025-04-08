@@ -193,15 +193,6 @@ function App() {
       try {
         const reportElement = reportRef.current;
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-        // 预加载二维码图片
-        await new Promise((resolve, reject) => {
-          const img = new Image();
-          img.crossOrigin = 'anonymous';
-          img.onload = resolve;
-          img.onerror = reject;
-          img.src = '/img/qrcode.png';
-        }).catch(err => console.warn('二维码图片预加载失败:', err));
         
         // 创建一个新的容器元素
         const container = document.createElement('div');
@@ -278,7 +269,7 @@ function App() {
           allowTaint: true,
           logging: false,
           backgroundColor: '#ffffff',
-          imageTimeout: 15000,
+          imageTimeout: 0,
           width: container.offsetWidth, // 确保使用实际宽度
           height: container.offsetHeight, // 确保使用实际高度
           onclone: (clonedDoc) => {
@@ -286,11 +277,6 @@ function App() {
             charts.forEach(chart => {
               chart.style.width = '100%';
               chart.style.height = 'auto';
-            });
-            // 设置二维码图片的crossOrigin属性
-            const qrcodeImages = clonedDoc.querySelectorAll('img[src*="qrcode"]');
-            qrcodeImages.forEach(img => {
-              img.crossOrigin = 'anonymous';
             });
           }
         });
@@ -793,7 +779,7 @@ function App() {
             }}>
               扫码领取您的XP报告
             </Typography>
-            <Box component="img" src="https://img.m-profile.top/img/qrcode.png" alt="QR Code" sx={{
+            <Box component="img" src="/qrcode.png" alt="QR Code" sx={{
               width: '200px',
               height: '200px',
               display: 'block',
@@ -856,7 +842,7 @@ function App() {
                 mb: 3,
                 mt: { xs: 3, md: 4 }
               }}>
-                总体评分分布
+                男M自评总体评分分布
               </Typography>
               <Box sx={{
                 width: '100%',
@@ -1002,7 +988,7 @@ function App() {
               backgroundColor: 'white',
               mt: 4
             }}>
-              <Box component="img" src="https://img.m-profile.top/img/qrcode.png" alt="QR Code" sx={{
+              <Box component="img" src="/qrcode.png" alt="QR Code" sx={{
                 width: '200px',
                 height: '200px',
                 display: 'block',

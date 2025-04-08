@@ -252,32 +252,18 @@ function App() {
         // 确保所有图表都已渲染
         await new Promise(resolve => setTimeout(resolve, 500));
 
-        // 预加载二维码图片
-        await new Promise((resolve, reject) => {
-          const img = new Image();
-          img.crossOrigin = 'anonymous';
-          img.onload = resolve;
-          img.onerror = reject;
-          img.src = '/img/qrcode.png';
-        }).catch(err => console.warn('二维码图片预加载失败:', err));
-
         const canvas = await html2canvas(container, {
           scale: 2,
           useCORS: true,
           allowTaint: true,
           logging: false,
           backgroundColor: '#ffffff',
-          imageTimeout: 15000,
+          imageTimeout: 0,
           onclone: (clonedDoc) => {
             const charts = clonedDoc.querySelectorAll('.recharts-wrapper');
             charts.forEach(chart => {
               chart.style.width = '100%';
               chart.style.height = 'auto';
-            });
-            // 设置二维码图片的crossOrigin属性
-            const qrcodeImages = clonedDoc.querySelectorAll('img[src*="qrcode"]');
-            qrcodeImages.forEach(img => {
-              img.crossOrigin = 'anonymous';
             });
           }
         });
@@ -781,7 +767,7 @@ function App() {
                 mb: 3,
                 mt: { xs: 3, md: 4 }
               }}>
-                总体评分分布
+                女M自评总体评分分布
               </Typography>
               <Box sx={{
                 width: '100%',
@@ -927,7 +913,7 @@ function App() {
               backgroundColor: 'white',
               mt: 4
             }}>
-              <Box component="img" src="https://img.m-profile.top/img/qrcode.png" alt="QR Code" sx={{
+              <Box component="img" src="/qrcode.png" alt="QR Code" sx={{
                 width: '200px',
                 height: '200px',
                 display: 'block',

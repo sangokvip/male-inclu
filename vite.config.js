@@ -7,12 +7,12 @@ export default defineConfig({
     port: 3000
   },
   base: './',  // 使用相对路径以确保在Vercel上静态资源路径正确
-  publicDir: 'img',  // 指定静态资源目录
+  publicDir: 'public',  // 指定静态资源目录
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
     sourcemap: false,
-    assetsInlineLimit: 0,  // 禁用资源内联，强制所有资源文件生成到dist目录
+    assetsInlineLimit: 4096,
     rollupOptions: {
       input: {
         main: './index.html',
@@ -20,7 +20,15 @@ export default defineConfig({
         male: './male.html'
       },
       output: {
-        manualChunks: undefined
+        manualChunks: undefined,
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name.split('.');
+          const ext = info[info.length - 1];
+          if (/\.(png|jpe?g|svg|gif|tiff|bmp|ico)$/i.test(assetInfo.name)) {
+            return `[name].[ext]`;
+          }
+          return `assets/[name]-[hash].[ext]`;
+        }
       }
     }
   }
