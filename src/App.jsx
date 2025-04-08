@@ -10,6 +10,7 @@ import HelpIcon from '@mui/icons-material/Help'
 import MenuIcon from '@mui/icons-material/Menu'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
+import MaleIcon from '@mui/icons-material/Male'
 
 const RATING_OPTIONS = ['SSS', 'SS', 'S', 'Q', 'N', 'W']
 const CATEGORIES = {
@@ -434,7 +435,7 @@ function App() {
               <Button color="inherit" startIcon={<HomeIcon />} href="/index.html">首页</Button>
               <Button color="inherit" startIcon={<InfoIcon />}>关于</Button>
               <Button color="inherit" startIcon={<HelpIcon />}>使用指南</Button>
-              <Button color="inherit" href="/male.html">男性版</Button>
+              <Button color="inherit" startIcon={<MaleIcon />} href="/male.html">男生版</Button>
             </Box>
 
             <IconButton
