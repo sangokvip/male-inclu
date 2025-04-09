@@ -11,6 +11,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
 import MaleIcon from '@mui/icons-material/Male'
+import Footer from './components/Footer'
 
 const RATING_OPTIONS = ['SSS', 'SS', 'S', 'Q', 'N', 'W']
 const CATEGORIES = {
@@ -390,7 +391,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-
+      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <AppBar position="sticky" sx={{
         background: 'linear-gradient(135deg, #6200ea 0%, #9d46ff 100%)',
         boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
@@ -969,8 +970,10 @@ function App() {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         />
       </Container>
+      <Footer />
+    </Box>
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App

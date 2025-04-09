@@ -12,6 +12,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
 import FemaleIcon from '@mui/icons-material/Female'
+import Footer from './components/Footer'
 
 const MENU_ITEMS = [
   { icon: <HomeIcon />, text: '首页', href: '/index.html' },
@@ -1044,6 +1045,7 @@ function App() {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         />
       </Container>
+      <Footer />
     </ThemeProvider>
   );
 }
