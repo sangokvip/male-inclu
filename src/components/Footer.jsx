@@ -12,7 +12,7 @@ const Footer = ({ pixelStyle = false }) => {
         mt: 'auto',
         py: 2,
         ...(pixelStyle ? {
-          background: '#ff0000',
+          background: '#000000',
           border: '4px solid #ffffff',
           borderStyle: 'double',
           position: 'relative',
@@ -23,8 +23,8 @@ const Footer = ({ pixelStyle = false }) => {
             left: 0,
             right: 0,
             bottom: 0,
-            background: 'repeating-linear-gradient(45deg, #ff0000 0px, #ff0000 2px, transparent 2px, transparent 4px)',
-            opacity: 0.2,
+            background: 'repeating-linear-gradient(45deg, #ffffff 0px, #ffffff 2px, transparent 2px, transparent 4px)',
+            opacity: 0.1,
             pointerEvents: 'none'
           }
         } : {

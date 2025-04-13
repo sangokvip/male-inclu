@@ -14,6 +14,8 @@ import CloseIcon from '@mui/icons-material/Close'
 import FemaleIcon from '@mui/icons-material/Female'
 import Footer from './components/Footer'
 
+// 使用黑白像素风格的Footer
+
 const MENU_ITEMS = [
   { icon: <HomeIcon />, text: '首页', href: '/index.html' },
   { icon: <ScienceIcon />, text: '评分说明', onClick: () => setOpenHelp(true) },
