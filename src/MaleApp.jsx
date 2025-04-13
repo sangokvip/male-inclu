@@ -265,13 +265,28 @@ function App() {
         // 确保所有图表都已渲染
         await new Promise(resolve => setTimeout(resolve, 800)); // 增加等待时间确保图表完全渲染
 
+        // 预加载二维码图片
+        await new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve();
+          img.onerror = () => {
+            console.error('QR code image failed to load');
+            resolve();
+          };
+          img.src = '/qrcode.png';
+          // 确保图片完全加载
+          if (img.complete) {
+            resolve();
+          }
+        });
+
         const canvas = await html2canvas(container, {
           scale: isMobile ? 3 : 2, // 移动端提高scale值以增加清晰度
           useCORS: true,
           allowTaint: true,
-          logging: false,
+          logging: true, // 启用日志以便调试
           backgroundColor: '#ffffff',
-          imageTimeout: 0,
+          imageTimeout: 15000, // 增加图片加载超时时间
           width: container.offsetWidth, // 确保使用实际宽度
           height: container.offsetHeight, // 确保使用实际高度
           onclone: (clonedDoc) => {
@@ -279,6 +294,22 @@ function App() {
             charts.forEach(chart => {
               chart.style.width = '100%';
               chart.style.height = 'auto';
+            });
+            
+            // 确保二维码图片能够被正确渲染
+            const qrCodeImages = clonedDoc.querySelectorAll('img[alt="QR Code"]');
+            qrCodeImages.forEach(img => {
+              // 确保图片已加载并可见
+              if (img.src.includes('/qrcode.png')) {
+                img.style.visibility = 'visible';
+                img.style.display = 'block';
+                // 强制设置图片源为绝对路径
+                const absolutePath = new URL('/qrcode.png', window.location.origin).href;
+                img.src = absolutePath;
+                // 确保图片尺寸正确
+                img.width = 200;
+                img.height = 200;
+              }
             });
           }
         });
@@ -436,6 +467,11 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: 'column',
+        minHeight: '100vh'
+      }}>
 
       <AppBar position="sticky" sx={{
         background: '#000',
@@ -1045,7 +1081,9 @@ function App() {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         />
       </Container>
-      <Footer />
+      
+      <Footer pixelStyle={true} />
+      </Box>
     </ThemeProvider>
   );
 }

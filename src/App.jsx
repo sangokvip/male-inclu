@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { Container, Typography, Paper, Grid, Box, Select, MenuItem, Button, Dialog, DialogTitle, DialogContent, DialogActions, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Snackbar, AppBar, Toolbar, Drawer, List, ListItem, ListItemIcon, ListItemText, createTheme, ThemeProvider } from '@mui/material'
+import Footer from './components/Footer'
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
 import html2canvas from 'html2canvas'
 import html2pdf from 'html2pdf.js'
@@ -11,7 +12,6 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
 import MaleIcon from '@mui/icons-material/Male'
-import Footer from './components/Footer'
 
 const RATING_OPTIONS = ['SSS', 'SS', 'S', 'Q', 'N', 'W']
 const CATEGORIES = {
@@ -254,18 +254,52 @@ function App() {
         // 确保所有图表都已渲染
         await new Promise(resolve => setTimeout(resolve, 500));
 
+        // 预加载二维码图片
+        await new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve();
+          img.onerror = () => {
+            console.error('QR code image failed to load');
+            resolve();
+          };
+          img.src = '/qrcode.png';
+          // 确保图片完全加载
+          if (img.complete) {
+            resolve();
+          }
+        });
+        
+        // 增加额外延迟确保图片加载
+        await new Promise(resolve => setTimeout(resolve, 200));
+
         const canvas = await html2canvas(container, {
           scale: 2,
           useCORS: true,
           allowTaint: true,
-          logging: false,
+          logging: true,
           backgroundColor: '#ffffff',
-          imageTimeout: 0,
+          imageTimeout: 15000,
           onclone: (clonedDoc) => {
             const charts = clonedDoc.querySelectorAll('.recharts-wrapper');
             charts.forEach(chart => {
               chart.style.width = '100%';
               chart.style.height = 'auto';
+            });
+            
+            // 确保二维码图片能够被正确渲染
+            const qrCodeImages = clonedDoc.querySelectorAll('img[alt="QR Code"]');
+            qrCodeImages.forEach(img => {
+              // 确保图片已加载并可见
+              if (img.src.includes('/qrcode.png')) {
+                img.style.visibility = 'visible';
+                img.style.display = 'block';
+                // 强制设置图片源为绝对路径
+                const absolutePath = new URL('/qrcode.png', window.location.origin).href;
+                img.src = absolutePath;
+                // 确保图片尺寸正确
+                img.width = 200;
+                img.height = 200;
+              }
             });
           }
         });
@@ -391,7 +425,12 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: 'column',
+        minHeight: '100vh'
+      }}>
+
       <AppBar position="sticky" sx={{
         background: 'linear-gradient(135deg, #6200ea 0%, #9d46ff 100%)',
         boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
@@ -706,7 +745,7 @@ function App() {
             }}>
               扫码领取您的XP报告
             </Typography>
-            <Box component="img" src="https://img.m-profile.top/img/qrcode.png" alt="QR Code" sx={{
+            <Box component="img" src="/qrcode.png" alt="QR Code" sx={{
               width: '200px',
               height: '200px',
               display: 'block',
@@ -970,10 +1009,11 @@ function App() {
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         />
       </Container>
-      <Footer />
-    </Box>
+      
+      <Footer pixelStyle={false} />
+      </Box>
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;

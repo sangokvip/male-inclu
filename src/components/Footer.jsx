@@ -1,41 +1,131 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Container, Typography, Link } from '@mui/material';
 
-const Footer = () => {
+// 像素风格页脚组件
+const Footer = ({ pixelStyle = false }) => {
+  const currentYear = new Date().getFullYear();
+  
   return (
     <Box
       component="footer"
       sx={{
         mt: 'auto',
-        py: 3,
-        px: 2,
-        borderTop: '4px solid #000',
-        backgroundColor: '#fff',
-        position: 'relative',
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: -8,
-          left: 0,
-          right: 0,
-          height: '4px',
-          backgroundColor: '#fff',
-        },
+        py: 2,
+        ...(pixelStyle ? {
+          background: '#ff0000',
+          border: '4px solid #ffffff',
+          borderStyle: 'double',
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'repeating-linear-gradient(45deg, #ff0000 0px, #ff0000 2px, transparent 2px, transparent 4px)',
+            opacity: 0.2,
+            pointerEvents: 'none'
+          }
+        } : {
+          background: 'linear-gradient(135deg, #6200ea 0%, #9d46ff 100%)',
+          boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+        })
       }}
-      className="pixel-theme"
     >
-      <Typography
-        variant="body2"
-        align="center"
-        sx={{
-          fontFamily: '"Press Start 2P", cursive',
-          fontSize: '0.7rem',
-          lineHeight: 1.8,
-          color: '#000',
-        }}
-      >
-        {'© ' + new Date().getFullYear() + ' MPRO. All rights reserved.'}
-      </Typography>
+      <Container maxWidth="lg">
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            textAlign: { xs: 'center', sm: 'left' },
+            gap: 2
+          }}
+        >
+          <Typography 
+            variant="body2" 
+            color="white"
+            sx={{
+              ...(pixelStyle && {
+                fontFamily: '"Press Start 2P", cursive',
+                fontSize: '0.8rem',
+                textShadow: '2px 2px 0px #000000',
+              })
+            }}
+          >
+            © {currentYear} M-Profile Lab. All rights reserved.
+          </Typography>
+          
+          <Box
+            sx={{
+              display: 'flex',
+              gap: { xs: 2, sm: 3 },
+              flexWrap: 'wrap',
+              justifyContent: 'center'
+            }}
+          >
+            <Link 
+              href="#" 
+              color="inherit"
+              underline="hover"
+              sx={{
+                color: 'white',
+                ...(pixelStyle && {
+                  fontFamily: '"Press Start 2P", cursive',
+                  fontSize: '0.8rem',
+                  textShadow: '2px 2px 0px #000000',
+                  '&:hover': {
+                    color: '#ffffff',
+                    textShadow: '2px 2px 0px #000000, 0 0 8px #ffffff'
+                  }
+                })
+              }}
+            >
+              联系我们
+            </Link>
+            <Link 
+              href="#" 
+              color="inherit"
+              underline="hover"
+              sx={{
+                color: 'white',
+                ...(pixelStyle && {
+                  fontFamily: '"Press Start 2P", cursive',
+                  fontSize: '0.8rem',
+                  textShadow: '2px 2px 0px #000000',
+                  '&:hover': {
+                    color: '#ffffff',
+                    textShadow: '2px 2px 0px #000000, 0 0 8px #ffffff'
+                  }
+                })
+              }}
+            >
+              隐私政策
+            </Link>
+            <Link 
+              href="#" 
+              color="inherit"
+              underline="hover"
+              sx={{
+                color: 'white',
+                ...(pixelStyle && {
+                  fontFamily: '"Press Start 2P", cursive',
+                  fontSize: '0.8rem',
+                  textShadow: '2px 2px 0px #000000',
+                  '&:hover': {
+                    color: '#ffffff',
+                    textShadow: '2px 2px 0px #000000, 0 0 8px #ffffff'
+                  }
+                })
+              }}
+            >
+              使用条款
+            </Link>
+          </Box>
+        </Box>
+      </Container>
     </Box>
   );
 };
