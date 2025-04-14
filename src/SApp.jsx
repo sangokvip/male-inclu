@@ -146,13 +146,13 @@ function SApp() {
 
   const getRatingColor = (rating) => {
     switch(rating) {
-      case 'SSS': return '#ff0000' // 深红色
-      case 'SS': return '#ff3333'  // 红色
-      case 'S': return '#ff6666'   // 中红色
-      case 'Q': return '#ff9999'   // 浅红色
-      case 'N': return '#ffcccc'   // 极浅红色
-      case 'W': return '#ffeeee'   // 红白色
-      default: return '#f5f5f5'    // 灰白色
+      case 'SSS': return '#FFD700' // 金色
+      case 'SS': return '#FFA500'  // 橙金色
+      case 'S': return '#32CD32'   // 青翠绿
+      case 'Q': return '#228B22'   // 森林绿
+      case 'N': return '#4169E1'   // 皇家蓝
+      case 'W': return '#1E90FF'   // 道奇蓝
+      default: return '#333333'    // 灰色
     }
   }
 
@@ -772,7 +772,7 @@ function SApp() {
           </Paper>
         </Box>
       </Container>
-      <Footer pixelStyle={true} />
+      <Footer pixelStyle={true} redStyle={true} />
       </Box>
 
       {/* 报告对话框 */}

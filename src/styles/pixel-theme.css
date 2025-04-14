@@ -7,7 +7,7 @@
 
 /* 红白像素风格主题 - 专为S页面设计 */
 .pixel-theme-red {
-  font-family: 'Press Start 2P', cursive;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background-color: #ffffff;
   color: #ff0000;
   image-rendering: pixelated;

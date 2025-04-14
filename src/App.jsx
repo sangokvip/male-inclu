@@ -12,6 +12,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
 import MaleIcon from '@mui/icons-material/Male'
+import './styles/pixel-theme.css'
 
 const RATING_OPTIONS = ['SSS', 'SS', 'S', 'Q', 'N', 'W']
 const CATEGORIES = {
@@ -432,9 +433,14 @@ function App() {
       }}>
 
       <AppBar position="sticky" sx={{
-        background: 'linear-gradient(135deg, #6200ea 0%, #9d46ff 100%)',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
-      }}>
+        background: 'transparent',
+        backgroundColor: '#fff0f5',
+        border: '4px solid #ff69b4',
+        borderBottom: '4px solid #ff69b4',
+        boxShadow: '4px 4px 0 rgba(255, 105, 180, 0.5)',
+        borderRadius: '0',
+        marginBottom: '1rem'
+      }} className="pixel-theme-pink">
 
         <Container maxWidth="lg">
           <Toolbar sx={{ 
@@ -451,17 +457,17 @@ function App() {
               justifyContent: 'flex-start',
               height: '100%'
             }}>
-              <ScienceIcon sx={{ display: 'flex' }} />
+              <ScienceIcon sx={{ display: 'flex', color: '#1E3D59' }} />
               <Typography variant="h5" sx={{
                 fontWeight: 'bold',
-                color: 'white',
+                color: '#1E3D59',
                 display: 'flex',
                 alignItems: 'center',
                 margin: 0,
                 padding: 0,
                 lineHeight: 1,
                 height: '100%'
-              }}>
+              }} className="pixel-title-pink">
                 M-Profile Lab
               </Typography>
             </Box>
@@ -472,18 +478,20 @@ function App() {
               flex: '1 1 auto',
               justifyContent: 'flex-end'
             }}>              
-              <Button color="inherit" startIcon={<HomeIcon />} href="/index.html">首页</Button>
-              <Button color="inherit" startIcon={<InfoIcon />}>关于</Button>
-              <Button color="inherit" startIcon={<HelpIcon />}>使用指南</Button>
-              <Button color="inherit" startIcon={<MaleIcon />} href="/male.html">男生版</Button>
+              <Button color="inherit" startIcon={<HomeIcon />} href="/index.html" className="pixel-button-pink" sx={{ color: '#1E3D59' }}>首页</Button>
+              <Button color="inherit" startIcon={<InfoIcon />} className="pixel-button-pink" sx={{ color: '#1E3D59' }}>关于</Button>
+              <Button color="inherit" startIcon={<HelpIcon />} className="pixel-button-pink" sx={{ color: '#1E3D59' }}>使用指南</Button>
+              <Button color="inherit" startIcon={<ScienceIcon />} href="/s.html" className="pixel-button-pink" sx={{ color: '#1E3D59' }}>S版</Button>
+              <Button color="inherit" startIcon={<MaleIcon />} href="/male.html" className="pixel-button-pink" sx={{ color: '#1E3D59' }}>男生版</Button>
             </Box>
 
             <IconButton
               color="inherit"
               sx={{ display: { xs: 'block', md: 'none' } }}
               onClick={() => setMobileMenuOpen(true)}
+              className="pixel-button-pink"
             >
-              <MenuIcon />
+              <MenuIcon sx={{ color: '#1E3D59' }} />
             </IconButton>
           </Toolbar>
         </Container>
@@ -542,19 +550,19 @@ function App() {
           from: { opacity: 0, transform: 'translateY(20px)' },
           to: { opacity: 1, transform: 'translateY(0)' }
         }
-      }}>
+      }} className="pixel-theme-pink">
         <Box sx={{ textAlign: 'center', mb: 4 }}>
-          <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+          <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold' }} className="pixel-title-pink">
             女M自评报告
           </Typography>
+          <Box className="pixel-divider-pink" sx={{ mb: 4, mt: 2 }}></Box>
           <Paper elevation={1} sx={{ 
             mt: 2, 
             p: 2, 
-            borderRadius: 2,
-            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            borderRadius: 0,
             maxWidth: { xs: '100%', md: '80%' },
             mx: 'auto'
-          }}>
+          }} className="pixel-card-pink">
             <Typography variant="subtitle2" sx={{ fontWeight: 'bold', mb: 1, color: 'primary.main', textAlign: 'center' }}>
               评分等级说明
             </Typography>
@@ -585,17 +593,11 @@ function App() {
               size="large"
               startIcon={<AutorenewIcon />}
               sx={{
-                background: 'linear-gradient(135deg, #ff4081 0%, #ff79b0 100%)',
-                color: 'white',
                 padding: '12px 32px',
                 fontSize: '1.1rem',
-                fontWeight: 'bold',
-                '&:hover': {
-                  background: 'linear-gradient(135deg, #ff79b0 0%, #ff4081 100%)',
-                  transform: 'scale(1.05)',
-                  boxShadow: '0 8px 16px rgba(0,0,0,0.2)'
-                }
+                fontWeight: 'bold'
               }}
+              className="pixel-button-pink"
               onClick={() => {
                 const newRatings = {};
                 Object.entries(CATEGORIES).forEach(([category, items]) => {
@@ -617,14 +619,14 @@ function App() {
         {Object.entries(CATEGORIES).map(([category, items]) => (
           <Paper key={category} elevation={2} sx={{
             p: { xs: 3, md: 4 },
-            borderRadius: 3,
+            borderRadius: 0,
             backgroundColor: 'background.paper',
             transition: 'all 0.3s ease',
             '&:hover': {
               transform: 'translateY(-4px)',
               boxShadow: '0 12px 24px rgba(0,0,0,0.1)'
             }
-          }}>
+          }} className="pixel-card-pink">
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
               <Typography variant="h5" sx={{ mb: 0 }}>
                 {category}
@@ -727,17 +729,18 @@ function App() {
             size="large"
             onClick={() => setOpenReport(true)}
             sx={{ minWidth: 200 }}
+            className="pixel-button-pink"
           >
             生成报告
           </Button>
           <Paper elevation={2} sx={{
             p: 3,
-            borderRadius: 2,
+            borderRadius: 0,
             textAlign: 'center',
             maxWidth: 300,
             mx: 'auto',
             backgroundColor: 'white'
-          }}>
+          }} className="pixel-card-pink">
             <Typography variant="subtitle1" sx={{
               fontWeight: 'bold',
               color: 'primary.main',
@@ -782,10 +785,9 @@ function App() {
             fontWeight: 'bold', 
             pt: { xs: 4, md: 5 },
             mt: { xs: 2, md: 3 },
-            color: 'primary.main',
-            borderBottom: '2px solid #6200ea',
+            borderBottom: '2px dashed #ff69b4',
             mb: 2
-          }}>
+          }} className="pixel-title-pink">
             女M自评详细报告
           </DialogTitle>
           <DialogContent ref={reportRef} sx={{ 
@@ -974,6 +976,7 @@ function App() {
               onClick={handleExportImage}
               variant="contained"
               color="primary"
+              className="pixel-button-pink"
             >
               保存为图片
             </Button>
@@ -981,12 +984,14 @@ function App() {
               onClick={handleExportPDF}
               variant="contained"
               color="secondary"
+              className="pixel-button-pink"
             >
               保存为PDF
             </Button>
             <Button
               onClick={handleShareToWeChat}
               variant="contained" color="info"
+              className="pixel-button-pink"
             >
               分享到微信
             </Button>
@@ -995,6 +1000,7 @@ function App() {
               variant="outlined"
               color="error"
               startIcon={<CloseIcon />}
+              className="pixel-button-pink"
             >
               关闭报告
             </Button>
@@ -1010,7 +1016,7 @@ function App() {
         />
       </Container>
       
-      <Footer pixelStyle={false} />
+      <Footer pixelStyle={true} pinkStyle={true} />
       </Box>
     </ThemeProvider>
   );

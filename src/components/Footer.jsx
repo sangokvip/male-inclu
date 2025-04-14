@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Container, Typography, Link } from '@mui/material';
 
 // 像素风格页脚组件
-const Footer = ({ pixelStyle = false }) => {
+const Footer = ({ pixelStyle = false, pinkStyle = false, redStyle = false }) => {
   const currentYear = new Date().getFullYear();
   
   return (
@@ -11,7 +11,39 @@ const Footer = ({ pixelStyle = false }) => {
       sx={{
         mt: 'auto',
         py: 2,
-        ...(pixelStyle ? {
+        ...(pixelStyle && pinkStyle ? {
+          background: '#fff0f5',
+          border: '4px solid #ff69b4',
+          borderStyle: 'double',
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'repeating-linear-gradient(45deg, #ff69b4 0px, #ff69b4 2px, transparent 2px, transparent 4px)',
+            opacity: 0.15,
+            pointerEvents: 'none'
+          }
+        } : pixelStyle && redStyle ? {
+          background: '#ff0000',
+          border: '4px solid #ffffff',
+          borderStyle: 'double',
+          position: 'relative',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'repeating-linear-gradient(45deg, #ffffff 0px, #ffffff 2px, transparent 2px, transparent 4px)',
+            opacity: 0.15,
+            pointerEvents: 'none'
+          }
+        } : pixelStyle ? {
           background: '#000000',
           border: '4px solid #ffffff',
           borderStyle: 'double',
@@ -24,11 +56,11 @@ const Footer = ({ pixelStyle = false }) => {
             right: 0,
             bottom: 0,
             background: 'repeating-linear-gradient(45deg, #ffffff 0px, #ffffff 2px, transparent 2px, transparent 4px)',
-            opacity: 0.1,
+            opacity: 0.15,
             pointerEvents: 'none'
           }
         } : {
-          background: 'linear-gradient(135deg, #6200ea 0%, #9d46ff 100%)',
+          background: '#ff0000',
           boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
         })
       }}
