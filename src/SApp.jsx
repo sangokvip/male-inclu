@@ -57,7 +57,7 @@ const theme = createTheme({
       marginBottom: '2rem',
       letterSpacing: '-0.5px',
       color: '#ff0000',
-      fontFamily: '"Press Start 2P", cursive',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
     },
     subtitle1: {
       color: 'text.secondary',
@@ -68,7 +68,7 @@ const theme = createTheme({
       fontWeight: 600,
       marginBottom: '1.5rem',
       color: '#ff0000',
-      fontFamily: '"Press Start 2P", cursive',
+      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
     },
   },
   components: {
@@ -569,7 +569,7 @@ function SApp() {
         }
       }}>
         <Box sx={{ textAlign: 'center', mb: 4 }}>
-          <Typography variant="h3" component="h1" className="pixel-title-red" sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+          <Typography variant="h3" component="h1"  sx={{ fontWeight: 'bold', color: 'primary.main' }}>
             How 'S' I Could Be?
           </Typography>
 
