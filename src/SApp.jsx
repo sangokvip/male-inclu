@@ -584,19 +584,19 @@ function SApp() {
               <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('SSS') }}>SSS</Box> = 极度喜欢
             </Typography>
             <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
-              <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('SS') }}>SS</Box> = 非常喜欢
+              <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('SS') }}>SS</Box> = 喜欢
             </Typography>
             <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
-              <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('S') }}>S</Box> = 喜欢
+              <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('S') }}>S</Box> = 接受
             </Typography>
             <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
               <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('Q') }}>Q</Box> = 好奇
             </Typography>
             <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
-              <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('N') }}>N</Box> = 不喜欢
+              <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('N') }}>N</Box> = 拒绝
             </Typography>
             <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
-              <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('W') }}>W</Box> = 抵触
+              <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('W') }}>W</Box> = 未知
             </Typography>
           </Box>
         </Paper>
