@@ -421,20 +421,52 @@ function SApp() {
     setSnackbarOpen(true)
   }
 
-  const handleShareToWeChat = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'S自评报告',
-        text: '查看我的S自评报告',
-      }).then(() => {
-        setSnackbarMessage('分享成功！')
-        setSnackbarOpen(true)
-      }).catch(() => {
-        setSnackbarMessage('分享失败，请重试')
-        setSnackbarOpen(true)
+  const handleShareToWeChat = async () => {
+    if (!reportRef.current) {
+      setSnackbarMessage('无法生成报告，请重试')
+      setSnackbarOpen(true)
+      return
+    }
+
+    try {
+      const reportElement = reportRef.current
+      const canvas = await html2canvas(reportElement, {
+        scale: 2,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor: '#ffffff'
       })
-    } else {
-      setSnackbarMessage('您的浏览器不支持分享功能')
+
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1.0))
+      const file = new File([blob], 'S自评报告.png', { type: 'image/png' })
+
+      if (navigator.share && navigator.canShare) {
+        const shareData = {
+          title: 'S自评报告',
+          text: '查看我的S自评报告',
+          files: [file]
+        }
+
+        if (navigator.canShare(shareData)) {
+          await navigator.share(shareData)
+          setSnackbarMessage('分享成功！')
+          setSnackbarOpen(true)
+          return
+        }
+      }
+
+      // 如果Web Share API不支持或分享失败，尝试保存文件
+      const url = URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = 'S自评报告.png'
+      link.click()
+      URL.revokeObjectURL(url)
+      setSnackbarMessage('已保存为图片，请手动分享到微信')
+      setSnackbarOpen(true)
+    } catch (error) {
+      console.error('分享错误:', error)
+      setSnackbarMessage('分享失败，请尝试保存图片后手动分享')
       setSnackbarOpen(true)
     }
   }
@@ -590,7 +622,7 @@ function SApp() {
               <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('S') }}>S</Box> = 接受
             </Typography>
             <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
-              <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('Q') }}>Q</Box> = 好奇
+              <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('Q') }}>Q</Box> = 好奇可以尝试
             </Typography>
             <Typography variant="body2" sx={{ fontSize: '0.9rem' }}>
               <Box component="span" sx={{ fontWeight: 'bold', color: getRatingColor('N') }}>N</Box> = 拒绝
