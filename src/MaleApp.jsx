@@ -449,20 +449,55 @@ function App() {
     setSnackbarOpen(true)
   }
 
-  const handleShareToWeChat = () => {
-    if (navigator.share) {
-      navigator.share({
+  const handleShareToWeChat = async () => {
+    try {
+      // 检查是否支持Web Share API
+      if (!navigator.share) {
+        setSnackbarMessage('您的浏览器不支持分享功能')
+        setSnackbarOpen(true)
+        return
+      }
+
+      // 检查是否支持分享文件
+      const canShareFiles = navigator.canShare && await reportRef.current
+
+      if (canShareFiles) {
+        // 尝试分享带有文件的内容
+        try {
+          const canvas = await html2canvas(reportRef.current)
+          const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', 1.0))
+          const file = new File([blob], '男M自评报告.png', { type: 'image/png' })
+          const shareData = {
+            title: '男M自评报告',
+            text: '查看我的男M自评报告',
+            files: [file]
+          }
+
+          if (navigator.canShare(shareData)) {
+            await navigator.share(shareData)
+            setSnackbarMessage('分享成功！')
+            setSnackbarOpen(true)
+            return
+          }
+        } catch (error) {
+          console.error('分享文件失败:', error)
+        }
+      }
+
+      // 如果无法分享文件，退回到基本分享
+      await navigator.share({
         title: '男M自评报告',
-        text: '查看我的男M自评报告',
-      }).then(() => {
-        setSnackbarMessage('分享成功！')
-        setSnackbarOpen(true)
-      }).catch(() => {
-        setSnackbarMessage('分享失败，请重试')
-        setSnackbarOpen(true)
+        text: '查看我的男M自评报告'
       })
-    } else {
-      setSnackbarMessage('您的浏览器不支持分享功能')
+      setSnackbarMessage('分享成功！')
+      setSnackbarOpen(true)
+    } catch (error) {
+      console.error('分享失败:', error)
+      if (error.name === 'AbortError') {
+        setSnackbarMessage('分享已取消')
+      } else {
+        setSnackbarMessage('分享失败，请重试')
+      }
       setSnackbarOpen(true)
     }
   }
