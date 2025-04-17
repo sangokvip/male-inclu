@@ -18,7 +18,8 @@ export default defineConfig({
         main: './index.html',
         female: './female.html',
         male: './male.html',
-        s: './s.html'
+        s: './s.html',
+        message: './message.html'
       },
       output: {
         manualChunks: undefined,
