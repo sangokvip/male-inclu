@@ -12,6 +12,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AutorenewIcon from '@mui/icons-material/Autorenew'
 import CloseIcon from '@mui/icons-material/Close'
 import MaleIcon from '@mui/icons-material/Male'
+import MessageIcon from '@mui/icons-material/Message'
 import './styles/pixel-theme.css'
 
 const RATING_OPTIONS = ['SSS', 'SS', 'S', 'Q', 'N', 'W']
@@ -518,6 +519,7 @@ function App() {
               <Button color="inherit" startIcon={<HelpIcon />} className="pixel-button-pink" sx={{ color: '#1E3D59' }}>使用指南</Button>
               <Button color="inherit" startIcon={<ScienceIcon />} href="/s.html" className="pixel-button-pink" sx={{ color: '#1E3D59' }}>S版</Button>
               <Button color="inherit" startIcon={<MaleIcon />} href="/male.html" className="pixel-button-pink" sx={{ color: '#1E3D59' }}>男生版</Button>
+              <Button color="inherit" startIcon={<MessageIcon />} href="/message.html" className="pixel-button-pink" sx={{ color: '#1E3D59' }}>留言板</Button>
             </Box>
 
             <IconButton
@@ -536,8 +538,35 @@ function App() {
         anchor="right"
         open={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
+        className="pixel-theme-pink"
       >
         <Box sx={{ width: 250, pt: 2 }}>
+          <List>
+            <ListItem button component="a" href="/index.html">
+              <ListItemIcon><HomeIcon sx={{ color: '#1E3D59' }} /></ListItemIcon>
+              <ListItemText primary="首页" sx={{ color: '#1E3D59' }} />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon><InfoIcon sx={{ color: '#1E3D59' }} /></ListItemIcon>
+              <ListItemText primary="关于" sx={{ color: '#1E3D59' }} />
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon><HelpIcon sx={{ color: '#1E3D59' }} /></ListItemIcon>
+              <ListItemText primary="使用指南" sx={{ color: '#1E3D59' }} />
+            </ListItem>
+            <ListItem button component="a" href="/s.html">
+              <ListItemIcon><ScienceIcon sx={{ color: '#1E3D59' }} /></ListItemIcon>
+              <ListItemText primary="S版" sx={{ color: '#1E3D59' }} />
+            </ListItem>
+            <ListItem button component="a" href="/male.html">
+              <ListItemIcon><MaleIcon sx={{ color: '#1E3D59' }} /></ListItemIcon>
+              <ListItemText primary="男生版" sx={{ color: '#1E3D59' }} />
+            </ListItem>
+            <ListItem button component="a" href="/message.html">
+              <ListItemIcon><MessageIcon sx={{ color: '#1E3D59' }} /></ListItemIcon>
+              <ListItemText primary="留言板" sx={{ color: '#1E3D59' }} />
+            </ListItem>
+          </List>
           <List>
             <ListItem button onClick={() => {
               const newRatings = {};
