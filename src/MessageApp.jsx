@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Container, Typography, Paper, Box, TextField, Button, AppBar, Toolbar, IconButton, Snackbar, ThemeProvider, createTheme, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material'
 import HomeIcon from '@mui/icons-material/Home'
 import SendIcon from '@mui/icons-material/Send'
@@ -6,6 +6,8 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import LoginIcon from '@mui/icons-material/Login'
 import LogoutIcon from '@mui/icons-material/Logout'
 import './styles/pixel-theme.css'
+import { messagesApi } from './utils/supabase'
+import { v4 as uuidv4 } from 'uuid'; // 导入 uuid
 
 const theme = createTheme({
   palette: {
@@ -105,11 +107,7 @@ const MessageBubble = ({ message, onDelete, isOwner }) => (
 )
 
 function MessageApp() {
-  const [messages, setMessages] = useState([
-    { id: 1, text: '想对主人说的话...', userId: 'system', deleted: false, originalText: '想对主人说的话...' },
-    { id: 2, text: '想对奴隶说的话...', userId: 'system', deleted: false, originalText: '想对奴隶说的话...' },
-    { id: 3, text: '想对玩伴说的话...', userId: 'system', deleted: false, originalText: '想对玩伴说的话...' },
-  ])
+  const [messages, setMessages] = useState([]); // Initialize with empty array
   const [newMessage, setNewMessage] = useState('')
   const [snackbarOpen, setSnackbarOpen] = useState(false)
   const [snackbarMessage, setSnackbarMessage] = useState('')
@@ -118,89 +116,172 @@ function MessageApp() {
   const [password, setPassword] = useState('')
   const [userId, setUserId] = useState(null)
 
-  useEffect(() => {
-    // 从cookie获取用户ID，如果不存在则创建新的
-    let id = document.cookie.match(/userId=([^;]+)/)?.[1]
-    if (!id) {
-      id = 'user_' + Math.random().toString(36).substr(2, 9)
-      document.cookie = `userId=${id};path=/;max-age=31536000`
+  // 从Supabase获取消息
+  const fetchMessages = useCallback(async () => {
+    try {
+      const data = await messagesApi.getMessages();
+      if (data && data.length > 0) {
+        setMessages(data);
+      } else {
+        // 如果没有消息数据，使用默认消息
+        setMessages([
+          { id: 1, text: '想对主人说的话...', user_id: 'system', deleted: false, original_text: '想对主人说的话...' },
+          { id: 2, text: '想对奴隶说的话...', user_id: 'system', deleted: false, original_text: '想对奴隶说的话...' },
+          { id: 3, text: '想对玩伴说的话...', user_id: 'system', deleted: false, original_text: '想对玩伴说的话...' },
+        ]);
+      }
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      setSnackbarMessage(`加载留言失败：${error.message || '请检查网络连接'}`);
+      setSnackbarOpen(true);
+      // 发生错误时使用默认消息
+      setMessages([
+        { id: 1, text: '想对主人说的话...', user_id: 'system', deleted: false, original_text: '想对主人说的话...' },
+        { id: 2, text: '想对奴隶说的话...', user_id: 'system', deleted: false, original_text: '想对奴隶说的话...' },
+        { id: 3, text: '想对玩伴说的话...', user_id: 'system', deleted: false, original_text: '想对玩伴说的话...' },
+      ]);
     }
-    setUserId(id)
-  }, [])
+  }, []);
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    // 从cookie获取用户ID，如果不存在则创建新的UUID
+    let idFromCookie = document.cookie.match(/userId=([^;]+)/)?.[1];
+    let finalUserId;
+    const uuidRegex = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+
+    if (idFromCookie) {
+      // 如果从 cookie 读取到 ID，检查并移除可能的前缀 'user_'
+      let potentialUserId = idFromCookie;
+      if (potentialUserId.startsWith('user_')) {
+        console.warn("Removing 'user_' prefix from cookie ID:", potentialUserId);
+        potentialUserId = potentialUserId.substring(5); // 移除 "user_" 前缀
+      }
+
+      // 验证 UUID 格式
+      if (uuidRegex.test(potentialUserId)) {
+        finalUserId = potentialUserId; // 格式有效，使用它
+        console.log("Using valid UUID from cookie:", finalUserId);
+      } else {
+        console.error('Invalid UUID format found in cookie:', potentialUserId, 'Generating new one.');
+        // 格式无效，生成新的 UUID
+        finalUserId = uuidv4();
+        document.cookie = `userId=${finalUserId};path=/;max-age=31536000;SameSite=Lax`;
+        console.log("Generated and saved new userId due to invalid format:", finalUserId);
+      }
+    } else {
+      // 如果 cookie 中没有 ID，生成新的 UUID
+      finalUserId = uuidv4();
+      // 将纯净的 UUID 存入 cookie
+      console.log("Generated new userId (no cookie found):", finalUserId);
+      document.cookie = `userId=${finalUserId};path=/;max-age=31536000;SameSite=Lax`;
+    }
+
+    setUserId(finalUserId); // 设置状态为有效的 UUID
+    fetchMessages(); // Fetch messages after getting userId
+  }, [fetchMessages]);
+
+  // Remove useEffect for saving to localStorage
+  // useEffect(() => {
+  //   localStorage.setItem('messages', JSON.stringify(messages));
+  // }, [messages]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    if (newMessage.trim()) {
-      // 检查用户24小时内的留言次数
-      const checkMessageLimit = () => {
-        const messageHistory = JSON.parse(localStorage.getItem(`messageHistory_${userId}`) || '[]')
-        const now = Date.now()
-        const oneDayAgo = now - 24 * 60 * 60 * 1000
-        
-        // 过滤出24小时内的留言
-        const recentMessages = messageHistory.filter(time => time > oneDayAgo)
-        
-        if (recentMessages.length >= 3) {
-          // 用户已达到24小时内3条留言的限制
-          setSnackbarMessage('您已达到24小时内3条留言的限制，请稍后再试！')
-          setSnackbarOpen(true)
-          return false
+    if (newMessage.trim() && userId) {
+      // 检查留言频率限制
+      if (!isAdmin) {
+        try {
+          const messageCount = await messagesApi.countUserMessagesInLast24Hours(userId);
+          if (messageCount >= 6) {
+            setSnackbarMessage('您今天留言已达上限（6条）');
+            setSnackbarOpen(true);
+            return; // 阻止提交
+          }
+        } catch (error) {
+          console.error("Error checking message limit:", error);
+          setSnackbarMessage('检查留言频率时出错，请稍后再试');
+          setSnackbarOpen(true);
+          return; // 发生错误时也阻止提交
         }
-        
-        // 更新留言历史
-        recentMessages.push(now)
-        localStorage.setItem(`messageHistory_${userId}`, JSON.stringify(recentMessages))
-        return true
       }
-      
-      // 如果超过留言限制，则不继续处理
-      if (!checkMessageLimit()) {
-        return
-      }
-      
-      // 过滤联系方式，但保留BDSM相关术语
+
+      // Filter message content (keep existing logic)
       const bdsm_terms = ['dom', 'sub', 'master', 'slave', 'pet', 'switch', 'top', 'bottom']
       const filtered_message = newMessage.trim().replace(/\b(?!(?:${bdsm_terms.join('|')})\b)[a-zA-Z0-9]+(?:[-.s][a-zA-Z0-9]+)*\b/g, match => {
-        // 检查是否包含数字和字母的组合，或纯数字/纯字母超过特定长度
         if (
-          (/[0-9].*[a-zA-Z]|[a-zA-Z].*[0-9]/.test(match)) || // 数字字母混合
-          (/^\d{6,}$/.test(match)) || // 纯数字且长度>=6
-          (/^[a-zA-Z]{8,}$/.test(match)) // 纯字母且长度>=8
+          (/[0-9].*[a-zA-Z]|[a-zA-Z].*[0-9]/.test(match)) ||
+          (/^\d{6,}$/.test(match)) ||
+          (/^[a-zA-Z]{8,}$/.test(match))
         ) {
           return '*'.repeat(match.length)
         }
         return match
       })
-      const newMessageObj = {
-        id: Date.now(),
+
+      const messageData = {
         text: filtered_message,
         userId: userId,
-        deleted: false,
         originalText: newMessage.trim()
+      };
+
+      try {
+        const savedMessage = await messagesApi.createMessage(messageData);
+        if (!savedMessage) {
+          // It's better practice to let the API call throw an error
+          // throw new Error('保存留言失败：服务器未返回数据');
+          // If createMessage resolves without error but returns falsy, handle it
+          console.warn('createMessage returned unexpected value:', savedMessage);
+          setSnackbarMessage('留言似乎成功，但服务器未返回确认信息');
+          setSnackbarOpen(true);
+          // Optionally, still update UI optimistically or refetch
+          // setMessages([...messages, { ...messageData, id: Date.now() }]); // Placeholder ID
+        } else {
+          setMessages([savedMessage, ...messages]); // Prepend new message
+          setNewMessage('');
+          setSnackbarMessage('留言成功！');
+          setSnackbarOpen(true);
+        }
+      } catch (error) {
+        console.error("详细错误信息:", error); // Log the full error object
+        // Try to extract a more specific message from Supabase error structure
+        const specificError = error?.details || error?.message || error?.error_description || '未知错误';
+        setSnackbarMessage(`留言失败：${specificError}`);
+        setSnackbarOpen(true);
       }
-      setMessages([...messages, newMessageObj])
-      setNewMessage('')
-      setSnackbarMessage('留言成功！')
-      setSnackbarOpen(true)
     }
   }
 
-  const handleDelete = (index) => {
-    const message = messages[index]
-    if (!isAdmin && message.userId !== userId) {
-      setSnackbarMessage('只能删除自己的留言！')
-      setSnackbarOpen(true)
-      return
+  const handleDelete = async (index) => {
+    const messageToDelete = messages[index];
+    // Keep owner check, but rely on backend for final authorization
+    if (!isAdmin && messageToDelete.userId !== userId) {
+      setSnackbarMessage('只能删除自己的留言！');
+      setSnackbarOpen(true);
+      return;
     }
-    const newMessages = [...messages]
-    newMessages[index] = { ...message, deleted: true }
-    setMessages(newMessages)
-    setSnackbarMessage('删除成功！')
-    setSnackbarOpen(true)
+
+    try {
+      await messagesApi.deleteMessage(messageToDelete.id, userId, isAdmin);
+
+      // Optimistically update UI or refetch
+      // Option 1: Optimistic update (remove immediately)
+      const newMessages = messages.filter((_, i) => i !== index);
+      setMessages(newMessages);
+      
+      // Option 2: Refetch messages after delete
+      // fetchMessages(); 
+
+      setSnackbarMessage('删除成功！');
+      setSnackbarOpen(true);
+    } catch (error) {
+      console.error("Error deleting message:", error);
+      setSnackbarMessage(`删除失败：${error.message}`);
+      setSnackbarOpen(true);
+    }
   }
 
   const handleLogin = () => {
-    if (password === 'sangok33') {
+    if (password === 'Sangok#3') {
       setIsAdmin(true)
       setOpenLogin(false)
       setPassword('')
@@ -265,6 +346,7 @@ function MessageApp() {
           <Typography variant="h3" className="pixel-title-pink">
             I Love Dirty Talk
           </Typography>
+ 
           
           <Box sx={{ 
             display: 'grid', 
@@ -276,9 +358,9 @@ function MessageApp() {
               (!message.deleted || isAdmin) && (
                 <MessageBubble
                   key={index}
-                  message={isAdmin ? message.originalText : message.text}
+                  message={isAdmin ? message.original_text : message.text}
                   onDelete={() => handleDelete(index)}
-                  isOwner={isAdmin || message.userId === userId}
+                  isOwner={isAdmin || message.user_id === userId}
                 />
               )
             ))}
